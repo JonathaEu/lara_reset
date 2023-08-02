@@ -19,8 +19,8 @@ Route::middleware('api')->get('/user', function (Request $request) {
 });
 
 Route::post('/login', function (Request $request) {
-    $credentials = $request->only(['email', 'password']);
-
+    $credentials = $request->only(['name', 'password']);
+    // dd($credentials);
     if (!$token = auth()->attempt($credentials)) {
         abort(401, 'Unauthorized');
     }
