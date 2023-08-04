@@ -32,6 +32,7 @@ Route::post('/login', function (Request $request) {
 
     return response()->json([
         'data' => [
+            'user' => auth()->user(),
             // 'status'=>'200',
             'token' => $token,
             'token_type' => 'bearer',
