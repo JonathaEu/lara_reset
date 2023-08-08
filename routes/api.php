@@ -3,7 +3,7 @@
 use App\Http\Controllers\api\controlaCliente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Autenticar;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -21,6 +21,16 @@ Route::group(['prefix' => ''],    function () {
 
 Route::middleware('api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+
+Route::get('/me', function () {
+    return auth()->user();
+});
+
+Route::post('/logout', function () {
+    auth()->logout();
+    response()->json(['message' => 'Usuário desautenticado com sucesso']);
 });
 
 Route::post('/login', function (Request $request) {
