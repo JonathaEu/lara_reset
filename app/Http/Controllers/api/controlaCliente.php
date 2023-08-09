@@ -22,7 +22,7 @@ class controlaCliente extends Controller
             cliente::create($request->validated());
             return response()->json(["success" => true, "mensagem" => 'cliente registrado'], 200);
         } catch (Exception $e) {
-            return response()->json(["success" => false, "error" => $e], 200);
+            return response()->json(["success" => false, "error" => $e], 400);
         }
     }
     public  function Update(StoreClienteRequest  $request, cliente $cliente)
@@ -31,7 +31,7 @@ class controlaCliente extends Controller
             $cliente->update($request->validated());
             return response()->json(["success" => true, "mensagem" => 'Registro atualizado com sucesso'], 200);
         } catch (Exception $e) {
-            return response()->json(["success" => false, "error" => $e], 200);
+            return response()->json(["success" => false, "error" => $e], 400);
         }
     }
     public  function show(cliente  $cliente)
@@ -39,13 +39,17 @@ class controlaCliente extends Controller
         try {
             return new clienteResource($cliente);
         } catch (Exception $e) {
-            return response()->json(["success" => false, "error" => $e], 200);
+            return response()->json(["success" => false, "error" => $e], 400);
         }
     }
 
     public function destroy(cliente $cliente)
     {
-        $cliente->delete();
-        return response()->json("Usuário deletado com sucesso!");
+        try {
+            $cliente->delete();
+            return response()->json("Usuário deletado com sucesso!");
+        } catch (Exception $e) {
+            return response()->json(["sucess" => false, "mensagem" => "Usuário não encontrado", "error" => $e], 400);
+        }
     }
 }

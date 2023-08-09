@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreClienteRequest extends FormRequest
+class StoreQuartoRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,14 +22,15 @@ class StoreClienteRequest extends FormRequest
     public function rules(): array
     {
         return [
+            // 'id' => ['required'],
             'nome' => ['required'],
-            'cpf' => ['required', 'unique:clientes' . $this->clientes->id],
-            'nascimento' => ['required'],
-            'email' => ['required'],
-            //'email' => ['required','unique:funcionario'. $this->funcionario->id, 'max:60'],
-            'telefone' => ['required',],
-            'cidade' => ['required',],
-            'estado' => ['required']
+            'numero' => ['required'],
+            'valor' => ['required'],
+            'max_cap' => ['required'],
+            // 'fk_tipo_qrt' => ['required'],
+            // 'fk_cliente' => ['required'],
+            // 'fk_frigobar' => ['required'],
+            // 'fk_estacionamento' => ['required'],
         ];
     }
 }
