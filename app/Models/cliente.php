@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use FactoryMethod;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,5 +19,23 @@ class cliente extends Model
         'cidade',
         'estado'
     ];
-    // protected $table = 'clientes';
+    protected $table = 'clientes';
+
+    /**
+     * @return mixed
+     */
+    public function getTable()
+    {
+        return $this->table;
+    }
+
+    /**
+     * @param mixed $table 
+     * @return self
+     */
+    public function setTable($table): self
+    {
+        $this->table = $table;
+        return $this;
+    }
 }

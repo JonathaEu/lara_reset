@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('frigobar_itens', function (Blueprint $table) {
             $table->foreignId('cod_frig')->references('id')->on('frigobar');
             $table->foreignId('cod_itens')->references('id')->on('itens');
-            $table->integer('qtd consumida');
+            // $table->integer('qtd consumida');
             $table->timestamps();
         });
     }

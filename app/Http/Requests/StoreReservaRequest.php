@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreClienteRequest extends FormRequest
+class StoreReservaRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,14 +22,9 @@ class StoreClienteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nome' => ['required'],
-            'cpf' => ['required', 'unique:clientes'],
-            'nascimento' => ['required'],
-            'email' => ['required'],
-            //'email' => ['required','unique:funcionario'. $this->funcionario->id, 'max:60'],
-            'telefone' => ['required',],
-            'cidade' => ['required',],
-            'estado' => ['required']
+            "status" => ['required'],
+            "dt_reserva" => ['required'],
+            "valor_diaria" => ['required'],
         ];
     }
 }

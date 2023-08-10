@@ -5,19 +5,20 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class tipo_quartoResource extends JsonResource
+class itensResource extends JsonResource
 {
     /**
-     * Transform the resource collection into an array.
+     * Transform the resource into an array.
      *
-     * @return array<int|string, mixed>
+     * @return array<string, mixed>
      */
     public function toArray(Request $request): array
     {
         return
             [
                 'id' => $this->id,
-                'tipo' => $this->tipo
+                'nome' => $this->nome,
+                'valor' => $this->valor,
             ];
     }
 }

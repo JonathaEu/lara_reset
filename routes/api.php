@@ -4,6 +4,7 @@ use App\Http\Controllers\api\controlaCliente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Autenticar;
+use App\Http\Controllers\controlaItens;
 use App\Http\Controllers\controlaQuarto;
 use App\Http\Controllers\controlaTipo_quarto;
 use App\Models\tipo_quarto;
@@ -26,8 +27,13 @@ Route::group(['prefix' => ''],    function () {
 Route::group(['prefix' => ''],    function () {
     Route::apiResource('quarto',   controlaQuarto::class);
 });
+
 Route::group(['prefix' => ''],    function () {
     Route::apiResource('tipo_quarto',   controlaTipo_quarto::class);
+});
+
+Route::group(['prefix' => ''],    function () {
+    Route::apiResource('itens',   controlaItens::class);
 });
 
 // Route::get('/tipo_quarto', function (Request $request) {
