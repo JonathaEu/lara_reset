@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('reservas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('fk_cliente')->references('id')->on('clientes');
-            $table->foreignId('fk_quarto')->references('id')->on('quarto');
+            $table->foreignId('fk_quarto')->references('id')->on('quartos');
             $table->foreignId('fk_funcionario')->references('id')->on('Users');
             $table->foreignId('fk_consumo')->references('id')->on('consumo');
-            $table->enum('status', ['p', 'c', 'i', 'f']);
+            $table->enum('status', ['pendente', 'cancelado', 'iniciado', 'finalizado']);
             $table->date('dt_reserva');
-            $table->datetimes('check_in');
-            $table->datetimes('check_out');
+            $table->dateTime('check_in');
+            $table->dateTime('check_out');
             $table->float('valor_diaria');
             $table->timestamps();
         });

@@ -14,11 +14,12 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        \App\Models\cliente::factory()->create([
-            'nome' => 'carlos',
-            'cpf' => '1231345',
+        \App\Models\User::factory()->create([
+            'name' => 'carlos',
+            // 'cpf' => '1231345',
             'email' => 'carlo@example.com',
-            'nascimento' => '2000/05/12',
+            'password' => 'password',
+            // 'nascimento' => '2000/05/12',
             'telefone' => '021999999',
             'cidade' => 'Duque de Caxias',
             'estado' => 'Rio de Janeiro',

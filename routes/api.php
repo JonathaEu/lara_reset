@@ -4,8 +4,10 @@ use App\Http\Controllers\api\controlaCliente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Autenticar;
+use App\Http\Controllers\controlaConsumo;
 use App\Http\Controllers\controlaItens;
 use App\Http\Controllers\controlaQuarto;
+use App\Http\Controllers\controlaReserva;
 use App\Http\Controllers\controlaTipo_quarto;
 use App\Models\tipo_quarto;
 
@@ -26,6 +28,14 @@ Route::group(['prefix' => ''],    function () {
 
 Route::group(['prefix' => ''],    function () {
     Route::apiResource('quarto',   controlaQuarto::class);
+});
+
+Route::group(['prefix' => ''],    function () {
+    Route::apiResource('consumo',   controlaConsumo::class);
+});
+
+Route::group(['prefix' => ''],    function () {
+    Route::apiResource('reserva',   controlaReserva::class);
 });
 
 Route::group(['prefix' => ''],    function () {
