@@ -23,7 +23,8 @@ class StoreReservaRequest extends FormRequest
     {
         return [
             "status" => ['required'],
-            "dt_reserva" => ['required'],
+            "dt_inicial" => ['required'],
+            "dt_final" => ['required'],
             "valor_diaria" => ['required'],
         ];
     }
