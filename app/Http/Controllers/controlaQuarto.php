@@ -23,11 +23,12 @@ class controlaQuarto extends Controller
      */
     public function store(StoreQuartoRequest $request)
     {
+        ($request->validated());
         try {
             quarto::create($request->validated());
             return response()->json(["success" => true, "mensagem" => 'Acomodação registrada'], 200);
         } catch (Exception $e) {
-            return response()->json(["success" => false, "error" => $e], 400);
+            return response()->json(["success" => false, "mensagem" => $e, "error" => $e], 400);
         }
     }
 

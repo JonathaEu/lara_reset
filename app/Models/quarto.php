@@ -14,5 +14,6 @@ class quarto extends Model
         'numero',
         'valor',
         'max_cap',
+        'quarto_id',
     ];
 }

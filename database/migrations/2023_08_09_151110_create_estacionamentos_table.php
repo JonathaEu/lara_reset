@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('estacionamento', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('quartos_id')->constrained();
             $table->timestamps();
         });
     }

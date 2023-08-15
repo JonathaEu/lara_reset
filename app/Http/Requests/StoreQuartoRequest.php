@@ -27,6 +27,7 @@ class StoreQuartoRequest extends FormRequest
             'numero' => ['required'],
             'valor' => ['required'],
             'max_cap' => ['required'],
+            'quarto_id' => ['required'],
             // 'fk_tipo_qrt' => ['required'],
             // 'fk_cliente' => ['required'],
             // 'fk_frigobar' => ['required'],
