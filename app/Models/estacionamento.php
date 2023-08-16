@@ -9,9 +9,9 @@ class estacionamento extends Model
 {
     use HasFactory;
 
-    // protected $fillable = [
-    //     'nome',
-    //     'nascimento',
-    // ];
+    protected $fillable = [
+        'quartos_id',
+
+    ];
     protected $table = 'estacionamento';
 }

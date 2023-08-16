@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('frigobar_itens', function (Blueprint $table) {
-            $table->foreignId('cod_frig')->references('id')->on('frigobar');
-            $table->foreignId('cod_itens')->references('id')->on('itens');
+            $table->foreignId('frigobar_id')->references('id')->on('frigobar');
+            $table->foreignId('itens_id')->references('id')->on('itens');
             // $table->integer('qtd consumida');
             $table->timestamps();
         });

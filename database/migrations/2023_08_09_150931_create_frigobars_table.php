@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('frigobar', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('quarto_id')->constrained();
+            $table->foreignId('fk_quarto')->references('id')->on('quartos');
             $table->timestamps();
         });
     }

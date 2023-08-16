@@ -10,4 +10,8 @@ class frigobar extends Model
     use HasFactory;
 
     protected $table = 'frigobar';
+
+    protected $fillable = [
+        'quartos_id',
+    ];
 }

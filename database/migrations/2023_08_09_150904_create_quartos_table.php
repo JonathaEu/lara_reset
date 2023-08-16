@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('numero');
             $table->float('valor');
             $table->integer('max_cap');
-            $table->foreignId('quarto_id')->nullable()->references('id')->on('tipo_quarto');
+            $table->foreignId('tipo_quartos_id')->references('id')->on('tipo_quarto');
             // $table->foreignId('fk_cliente')->references('id')->on('clientes');
             $table->timestamps();
         });

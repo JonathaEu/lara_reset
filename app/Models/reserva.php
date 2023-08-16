@@ -15,5 +15,9 @@ class reserva extends Model
         'check_in',
         'check_out',
         'valor_diaria',
+        'clientes_id',
+        'quartos_id',
+        'funcionarios_id',
+        'consumos_id',
     ];
 }

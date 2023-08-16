@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\api\controlaCliente;
+use App\Http\Controllers\controlaFrigobar_itens;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Autenticar;
 use App\Http\Controllers\controlaConsumo;
+use App\Http\Controllers\controlaEstacionamento;
 use App\Http\Controllers\controlaItens;
 use App\Http\Controllers\controlaQuarto;
 use App\Http\Controllers\controlaReserva;
@@ -43,16 +45,16 @@ Route::group(['prefix' => ''],    function () {
 });
 
 Route::group(['prefix' => ''],    function () {
-    Route::apiResource('itens',   controlaItens::class);
+    Route::apiResource('estacionamento',   controlaEstacionamento::class);
 });
 
-// Route::get('/tipo_quarto', function (Request $request) {
-//     try {
-//         return $request->tipo_quarto();
-//     } catch (Exception $e) {
-//         return response()->json(["sucess" => false, "error" => $e]);
-//     }
+// Route::group(['prefix' => ''],    function () {
+//     Route::apiResource('frigobar_itens',   controlaFrigobar_itens::class);
 // });
+
+Route::group(['prefix' => ''],    function () {
+    Route::apiResource('itens',   controlaItens::class);
+});
 
 Route::middleware('api')->get('/user', function (Request $request) {
     return $request->user();

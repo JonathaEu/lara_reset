@@ -9,8 +9,8 @@ class frigobar_iten extends Model
 {
     use HasFactory;
 
-    // protected $fillable = [
-    //     'nome',
-    //     'nascimento',
-    // ];
+    protected $fillable = [
+        'frigobar_id',
+        'itens_id',
+    ];
 }

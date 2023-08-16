@@ -23,6 +23,8 @@ class StoreconsumoRequest extends FormRequest
     {
         return [
             'quantidade' => ['required'],
+            'itens_id' => ['required'],
+            'valor_total' => ['required'],
         ];
     }
 }
