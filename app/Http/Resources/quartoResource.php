@@ -3,9 +3,10 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class quartoResource extends ResourceCollection
+class quartoResource extends JsonResource
 {
     /**
      * Transform the resource collection into an array.
@@ -20,10 +21,7 @@ class quartoResource extends ResourceCollection
             'numero' => $this->numero,
             'valor' => $this->valor,
             'max_cap' => $this->max_cap,
-            'fk_tipo_qrt' => $this->fk_tipo_qrt,
-            'fk_cliente' => $this->fk_cliente,
-            'fk_frigobar' => $this->fk_frigobar,
-            'fk_estacionamento' => $this->fk_estacionamento,
+            'tipo_quartos_id' => $this->tipo_quartos_id,
         ];
     }
 }

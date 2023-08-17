@@ -12,5 +12,6 @@ class tipo_quarto extends Model
 
     protected $fillable = [
         'tipo',
+        'tipo_quartos_id',
     ];
 }

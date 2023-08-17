@@ -27,11 +27,8 @@ class StoreQuartoRequest extends FormRequest
             'numero' => ['required'],
             'valor' => ['required'],
             'max_cap' => ['required'],
-            'quarto_id' => ['required'],
-            // 'fk_tipo_qrt' => ['required'],
-            // 'fk_cliente' => ['required'],
+            'tipo_quartos_id' => ['required'],
             // 'fk_frigobar' => ['required'],
-            // 'fk_estacionamento' => ['required'],
         ];
     }
 }

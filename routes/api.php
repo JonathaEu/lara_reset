@@ -48,9 +48,9 @@ Route::group(['prefix' => ''],    function () {
     Route::apiResource('estacionamento',   controlaEstacionamento::class);
 });
 
-// Route::group(['prefix' => ''],    function () {
-//     Route::apiResource('frigobar_itens',   controlaFrigobar_itens::class);
-// });
+Route::group(['prefix' => ''],    function () {
+    Route::apiResource('frigobar_itens',   controlaFrigobar_itens::class);
+});
 
 Route::group(['prefix' => ''],    function () {
     Route::apiResource('itens',   controlaItens::class);
