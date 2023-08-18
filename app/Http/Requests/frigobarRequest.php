@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreEstacionamentoRequest extends FormRequest
+class frigobarRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,8 +22,9 @@ class StoreEstacionamentoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // 'quartos_id' => ['required'],
-            'numero_vaga' => ['required'],
+            'quartos_id' => ['required'],
+            'ativo' => ['required'],
+            'numero' => ['required'],
         ];
     }
 }

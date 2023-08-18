@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class estacionamentoResource extends JsonResource
+class frigobarResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,7 +18,8 @@ class estacionamentoResource extends JsonResource
             [
                 'id' => $this->id,
                 'quartos_id' => $this->quartos_id,
-                'numero_vaga' => $this->numero_vaga,
+                'ativo' => $this->ativo,
+                'numero' => $this->numero,
             ];
     }
 }

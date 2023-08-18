@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('frigobar', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('fk_quarto')->references('id')->on('quartos');
+            $table->foreignId('quartos_id')->references('id')->on('quartos');
+            $table->boolean('ativo');
+            $table->integer('numero');
             $table->timestamps();
         });
     }

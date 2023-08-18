@@ -11,7 +11,7 @@ class estacionamento extends Model
 
     protected $fillable = [
         'quartos_id',
-
+        'numero_vaga'
     ];
     protected $table = 'estacionamento';
 }

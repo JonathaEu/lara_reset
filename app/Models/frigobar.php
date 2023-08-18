@@ -13,5 +13,7 @@ class frigobar extends Model
 
     protected $fillable = [
         'quartos_id',
+        'ativo',
+        'numero',
     ];
 }

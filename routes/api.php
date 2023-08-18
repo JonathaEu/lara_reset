@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Autenticar;
 use App\Http\Controllers\controlaConsumo;
 use App\Http\Controllers\controlaEstacionamento;
+use App\Http\Controllers\controlaFrigobar;
 use App\Http\Controllers\controlaItens;
 use App\Http\Controllers\controlaQuarto;
 use App\Http\Controllers\controlaReserva;
@@ -54,6 +55,10 @@ Route::group(['prefix' => ''],    function () {
 
 Route::group(['prefix' => ''],    function () {
     Route::apiResource('itens',   controlaItens::class);
+});
+
+Route::group(['prefix' => ''],    function () {
+    Route::apiResource('frigobar',   controlaFrigobar::class);
 });
 
 Route::middleware('api')->get('/user', function (Request $request) {
