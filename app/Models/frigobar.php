@@ -16,4 +16,13 @@ class frigobar extends Model
         'ativo',
         'numero',
     ];
+
+    /**
+     * Summary of quarto
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function quarto()
+    {
+        return $this->belongsTo('App\Models\quarto', 'quartos_id');
+    }
 }

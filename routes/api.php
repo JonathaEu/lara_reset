@@ -12,6 +12,8 @@ use App\Http\Controllers\controlaItens;
 use App\Http\Controllers\controlaQuarto;
 use App\Http\Controllers\controlaReserva;
 use App\Http\Controllers\controlaTipo_quarto;
+use App\Models\frigobar;
+use App\Models\quarto;
 use App\Models\tipo_quarto;
 
 /*
@@ -68,6 +70,14 @@ Route::middleware('api')->get('/user', function (Request $request) {
 
 Route::get('/me', function () {
     return auth()->user();
+});
+
+Route::get('/frigobar_quarto/{id_frigobar}', function ($id_frigobar) {
+
+    // $quartos_id = frigobar->quartos_id;
+    return
+        // $frigobar = quarto::find(2)->frigobar;
+        $quarto = frigobar::find($id_frigobar)->quarto;
 });
 
 Route::post('/logout', function () {

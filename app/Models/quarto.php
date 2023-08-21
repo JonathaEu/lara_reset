@@ -16,4 +16,9 @@ class quarto extends Model
         'max_cap',
         'tipo_quartos_id',
     ];
+
+    public function frigobar()
+    {
+        return $this->hasMany('App\Models\frigobar', 'quartos_id');
+    }
 }
