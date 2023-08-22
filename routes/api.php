@@ -72,12 +72,14 @@ Route::get('/me', function () {
     return auth()->user();
 });
 
-Route::get('/frigobar_quarto/{id_frigobar}', function ($id_frigobar) {
+Route::get('/frigobar_quarto', function () {
 
     // $quartos_id = frigobar->quartos_id;
+    $frigobar = frigobar::with('quarto')->get();
     return
-        // $frigobar = quarto::find(2)->frigobar;
-        $quarto = frigobar::find($id_frigobar)->quarto;
+        $frigobar;
+    // $frigobar = quarto::find(2)->frigobar;
+    // $quarto = frigobar::find($id_frigobar)->quarto;
 });
 
 Route::post('/logout', function () {

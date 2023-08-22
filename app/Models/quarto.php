@@ -19,6 +19,6 @@ class quarto extends Model
 
     public function frigobar()
     {
-        return $this->hasMany('App\Models\frigobar', 'quartos_id');
+        return $this->hasMany('App\Models\frigobar', 'quartos_id', 'id');
     }
 }
