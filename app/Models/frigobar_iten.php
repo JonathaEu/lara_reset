@@ -13,4 +13,13 @@ class frigobar_iten extends Model
         'frigobar_id',
         'itens_id',
     ];
+
+    public function frigobar()
+    {
+        return $this->hasMany('App\Models\frigobar', 'frigobar_id', 'id');
+    }
+    public function itens()
+    {
+        return $this->hasMany('App\Models\iten', 'itens_id', 'id');
+    }
 }

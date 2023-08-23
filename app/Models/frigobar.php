@@ -25,4 +25,9 @@ class frigobar extends Model
     {
         return $this->belongsTo('App\Models\quarto', 'quartos_id');
     }
+
+    public function frigobar_itens()
+    {
+        return $this->belongsTo('App\Models\frigobar_itens');
+    }
 }

@@ -12,7 +12,10 @@ use App\Http\Controllers\controlaItens;
 use App\Http\Controllers\controlaQuarto;
 use App\Http\Controllers\controlaReserva;
 use App\Http\Controllers\controlaTipo_quarto;
+use App\Models\cliente;
+use App\Models\estacionamento;
 use App\Models\frigobar;
+use App\Models\frigobar_iten;
 use App\Models\quarto;
 use App\Models\tipo_quarto;
 
@@ -81,6 +84,21 @@ Route::get('/frigobar_quarto', function () {
     // $frigobar = quarto::find(2)->frigobar;
     // $quarto = frigobar::find($id_frigobar)->quarto;
 });
+
+Route::get('/frigobar_itens', function () {
+
+    $frigobar_itens = frigobar_iten::with('frigobar')->get();
+    return
+        $frigobar_itens;
+});
+
+Route::get('/estacionamento_quarto', function () {
+
+    $estacionamento = estacionamento::with('quarto')->get();
+    return
+        $estacionamento;
+});
+
 
 Route::post('/logout', function () {
     auth()->logout();

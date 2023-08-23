@@ -22,8 +22,8 @@ class frigobar_itensRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'cod_frig' => ['required'],
-            'cod_itens' => ['required'],
+            'frigobar_id' => ['required'],
+            'itens_id' => ['required'],
         ];
     }
 }

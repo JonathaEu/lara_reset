@@ -14,4 +14,9 @@ class estacionamento extends Model
         'numero_vaga'
     ];
     protected $table = 'estacionamento';
+
+    public function quarto()
+    {
+        return $this->belongsTo('App\Models\quarto', 'quartos_id');
+    }
 }

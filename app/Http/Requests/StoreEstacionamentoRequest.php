@@ -22,8 +22,8 @@ class StoreEstacionamentoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // 'quartos_id' => ['required'],
-            'numero_vaga' => ['required'],
+            'quartos_id' => ['required'],
+            // 'numero_vaga' => ['required'],
         ];
     }
 }

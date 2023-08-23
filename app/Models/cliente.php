@@ -21,6 +21,11 @@ class cliente extends Model
     ];
     protected $table = 'clientes';
 
+    public function estacionamento()
+    {
+        return $this->hasMany('App\Models\estacionamento', 'quartos_id', 'id');
+    }
+
     /**
      * @return mixed
      */
