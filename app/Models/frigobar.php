@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class frigobar extends Model
 {
@@ -23,11 +24,11 @@ class frigobar extends Model
      */
     public function quarto()
     {
-        return $this->belongsTo('App\Models\quarto', 'quartos_id');
+        return $this->belongsTo('App\Models\quarto', 'quartos_id', 'id');
     }
 
-    public function frigobar_itens()
+    public function itens(): BelongsToMany
     {
-        return $this->belongsTo('App\Models\frigobar_itens');
+        return $this->belongsToMany('App\models\iten');
     }
 }

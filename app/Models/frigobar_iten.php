@@ -11,15 +11,18 @@ class frigobar_iten extends Model
 
     protected $fillable = [
         'frigobar_id',
-        'itens_id',
+        'iten_id',
+        'qtd_item'
     ];
 
-    public function frigobar()
-    {
-        return $this->hasMany('App\Models\frigobar', 'frigobar_id', 'id');
-    }
-    public function itens()
-    {
-        return $this->hasMany('App\Models\iten', 'itens_id', 'id');
-    }
+    protected $table = 'frigobar_iten';
+
+    // public function frigobar()
+    // {
+    //     return $this->hasMany('App\Models\frigobar', 'frigobar_id', 'id');
+    // }
+    //     public function itens()
+    //     {
+    //         return $this->hasMany('App\Models\iten', 'itens_id', 'id');
+    //     }
 }

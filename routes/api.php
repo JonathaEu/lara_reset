@@ -85,11 +85,17 @@ Route::get('/frigobar_quarto', function () {
     // $quarto = frigobar::find($id_frigobar)->quarto;
 });
 
-Route::get('/frigobar_itens', function () {
+Route::get('/frigobar_itens_rel', function () {
 
-    $frigobar_itens = frigobar_iten::with('frigobar')->get();
-    return
-        $frigobar_itens;
+    $frigobar = frigobar::with('itens')->get();
+    return $frigobar;
+
+    // foreach ($frigobar->itens as $item) {
+    //     echo $item->pivot;
+    // }
+    // $frigobar_itens = frigobar_iten::with('frigobar')->get();
+    // return
+    //     $frigobar_itens;
 });
 
 Route::get('/estacionamento_quarto', function () {
