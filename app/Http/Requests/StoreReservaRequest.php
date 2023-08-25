@@ -26,10 +26,10 @@ class StoreReservaRequest extends FormRequest
             "dt_inicial" => ['required'],
             "dt_final" => ['required'],
             "valor_diaria" => ['required'],
-            "fk_cliente" => ['required'],
-            "fk_quarto" => ['required'],
-            "fk_funcionario" => ['required'],
-            "fk_consumo" => ['required'],
+            "clientes_id" => ['required'],
+            "quartos_id" => ['required'],
+            "funcionarios_id" => ['required'],
+            "consumos_id" => ['required'],
         ];
     }
 }

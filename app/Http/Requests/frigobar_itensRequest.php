@@ -24,7 +24,6 @@ class frigobar_itensRequest extends FormRequest
         return [
             'frigobar_id' => ['required'],
             'iten_id' => ['required'],
-            'qtd_item' => ['required']
         ];
     }
 }

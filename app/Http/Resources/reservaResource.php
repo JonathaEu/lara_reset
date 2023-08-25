@@ -17,10 +17,10 @@ class reservaResource extends JsonResource
         return
             [
                 'id' => $this->id,
-                'fk_cliente' => $this->fk_cliente,
-                'fk_quarto' => $this->fk_quarto,
-                'fk_funcionario' => $this->fk_funcionario,
-                'fk_consumo' => $this->fk_consumo,
+                'clientes_id' => $this->clientes_id,
+                'quartos_id' => $this->quartos_id,
+                'funcionarios_id' => $this->funcionarios_id,
+                'consumos_id' => $this->consumos_id,
                 'status' => $this->status,
                 'dt_reserva' => $this->dt_reserva,
                 'check_in' => $this->check_in,
