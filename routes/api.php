@@ -8,6 +8,7 @@ use App\Http\Controllers\Autenticar;
 use App\Http\Controllers\controlaConsumo;
 use App\Http\Controllers\controlaEstacionamento;
 use App\Http\Controllers\controlaFrigobar;
+use App\Http\Controllers\controlaFuncionario;
 use App\Http\Controllers\controlaItens;
 use App\Http\Controllers\controlaQuarto;
 use App\Http\Controllers\controlaReserva;
@@ -17,6 +18,7 @@ use App\Models\estacionamento;
 use App\Models\frigobar;
 use App\Models\frigobar_iten;
 use App\Models\quarto;
+use App\Models\reserva;
 use App\Models\tipo_quarto;
 
 /*
@@ -32,6 +34,10 @@ use App\Models\tipo_quarto;
 
 Route::group(['prefix' => ''],    function () {
     Route::apiResource('cliente',   controlaCliente::class);
+});
+
+Route::group(['prefix' => ''],    function () {
+    Route::apiResource('funcionario',   controlaFuncionario::class);
 });
 
 Route::group(['prefix' => ''],    function () {
@@ -81,8 +87,21 @@ Route::get('/frigobar_quarto', function () {
     $frigobar = frigobar::with('quarto')->get();
     return
         $frigobar;
-    // $frigobar = quarto::find(2)->frigobar;
-    // $quarto = frigobar::find($id_frigobar)->quarto;
+});
+
+Route::get('/reserva_rel', function () {
+
+    // $quartos_id = frigobar->quartos_id;
+    $rel_quartos = reserva::with('quartos')->get();
+    $rel_clientes = reserva::with('clientes')->get();
+    $rel_consumos = reserva::with('consumos')->get();
+    $rel_funcionarios = reserva::with('users')->get();
+    return response()->json([
+        'reserva_quartos' => $rel_quartos,
+        'reserva_clientes' => $rel_clientes,
+        'reserva_consumos' => $rel_consumos,
+        'reserva_funcionarios' => $rel_funcionarios,
+    ]);
 });
 
 Route::get('/frigobar_itens_rel', function () {

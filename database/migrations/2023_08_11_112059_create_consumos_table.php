@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('itens_id')->constrained();
             $table->integer('quantidade');
-            $table->float('valot_total');
+            $table->float('valor_total');
             $table->timestamps();
         });
     }

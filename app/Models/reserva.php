@@ -10,14 +10,31 @@ class reserva extends Model
     use HasFactory;
 
     protected $fillable = [
-        'status',
-        'dt_reserva',
-        'check_in',
-        'check_out',
-        'valor_diaria',
         'clientes_id',
         'quartos_id',
-        'funcionarios_id',
+        'users_id',
         'consumos_id',
+        'status',
+        'dt_inicial',
+        'dt_final',
+        'check_in',
+        'check_out',
     ];
+
+    public function clientes()
+    {
+        return $this->belongsTo('App\models\cliente');
+    }
+    public function quartos()
+    {
+        return $this->belongsTo('App\models\quarto');
+    }
+    public function consumos()
+    {
+        return $this->belongsTo('App\models\consumo');
+    }
+    public function users()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

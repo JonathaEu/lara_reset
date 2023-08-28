@@ -5,6 +5,7 @@ namespace App\Models;
 use FactoryMethod;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class cliente extends Model
 {
@@ -24,6 +25,10 @@ class cliente extends Model
     public function estacionamento()
     {
         return $this->hasMany('App\Models\estacionamento', 'quartos_id', 'id');
+    }
+    public function reserva()
+    {
+        return $this->hasMany('App\Models\reserva');
     }
 
     /**

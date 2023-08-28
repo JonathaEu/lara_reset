@@ -22,14 +22,15 @@ class StoreReservaRequest extends FormRequest
     public function rules(): array
     {
         return [
+            "clientes_id" => ['required'],
+            "quartos_id" => ['required'],
+            "users_id" => ['required'],
+            "consumos_id" => ['required'],
             "status" => ['required'],
             "dt_inicial" => ['required'],
             "dt_final" => ['required'],
-            "valor_diaria" => ['required'],
-            "clientes_id" => ['required'],
-            "quartos_id" => ['required'],
-            "funcionarios_id" => ['required'],
-            "consumos_id" => ['required'],
+            "check_in" => ['required'],
+            "check_out" => ['required'],
         ];
     }
 }

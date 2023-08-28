@@ -15,14 +15,13 @@ return new class extends Migration
             $table->id();
             $table->foreignId('clientes_id')->references('id')->on('clientes');
             $table->foreignId('quartos_id')->references('id')->on('quartos');
-            $table->foreignId('funcionarios_id')->references('id')->on('Users');
+            $table->foreignId('users_id')->references('id')->on('Users');
             $table->foreignId('consumos_id')->references('id')->on('consumo');
             $table->enum('status', ['pendente', 'cancelado', 'iniciado', 'finalizado']);
             $table->date('dt_inicial');
             $table->date('dt_final');
             $table->dateTime('check_in')->nullable();
             $table->dateTime('check_out')->nullable();
-            $table->float('valor_diaria');
             $table->timestamps();
         });
     }

@@ -19,13 +19,13 @@ class reservaResource extends JsonResource
                 'id' => $this->id,
                 'clientes_id' => $this->clientes_id,
                 'quartos_id' => $this->quartos_id,
-                'funcionarios_id' => $this->funcionarios_id,
+                'users_id' => $this->users_id,
                 'consumos_id' => $this->consumos_id,
                 'status' => $this->status,
-                'dt_reserva' => $this->dt_reserva,
+                'dt_inicial' => $this->dt_inicial,
+                'dt_final' => $this->dt_final,
                 'check_in' => $this->check_in,
                 'check_out' => $this->check_out,
-                'valor_diaria' => $this->valor_diaria,
             ];
     }
 }
