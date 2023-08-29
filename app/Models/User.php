@@ -20,9 +20,11 @@ class User extends Authenticatable implements JWTSubject
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'nome',
+        'cpf',
         'email',
-        'password',
+        'senha',
+        'telefone',
     ];
 
     public function reserva()
@@ -36,7 +38,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
+        'senha',
         'remember_token',
     ];
 
