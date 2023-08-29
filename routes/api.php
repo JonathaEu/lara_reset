@@ -8,7 +8,6 @@ use App\Http\Controllers\Autenticar;
 use App\Http\Controllers\controlaConsumo;
 use App\Http\Controllers\controlaEstacionamento;
 use App\Http\Controllers\controlaFrigobar;
-use App\Http\Controllers\controlaFuncionario;
 use App\Http\Controllers\controlaItens;
 use App\Http\Controllers\controlaQuarto;
 use App\Http\Controllers\controlaReserva;
@@ -34,10 +33,6 @@ use App\Models\tipo_quarto;
 
 Route::group(['prefix' => ''],    function () {
     Route::apiResource('cliente',   controlaCliente::class);
-});
-
-Route::group(['prefix' => ''],    function () {
-    Route::apiResource('funcionario',   controlaFuncionario::class);
 });
 
 Route::group(['prefix' => ''],    function () {
