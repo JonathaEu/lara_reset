@@ -13,6 +13,7 @@ class frigobar extends Model
     protected $table = 'frigobar';
 
     protected $fillable = [
+        'id',
         'quartos_id',
         'ativo',
         'numero',

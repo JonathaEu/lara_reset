@@ -22,6 +22,7 @@ class frigobarRequest extends FormRequest
     public function rules(): array
     {
         return [
+            // 'id' => ['required'],
             'quartos_id' => ['required'],
             'ativo' => ['required'],
             'numero' => ['required'],
