@@ -32,4 +32,8 @@ class frigobar extends Model
     {
         return $this->belongsToMany('App\models\iten');
     }
+    public function frigobar_itens()
+    {
+        return $this->belongsToMany(frigobar_iten::class);
+    }
 }

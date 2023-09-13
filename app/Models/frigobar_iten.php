@@ -16,12 +16,12 @@ class frigobar_iten extends Model
 
     protected $table = 'frigobar_iten';
 
-    // public function frigobar()
-    // {
-    //     return $this->hasMany('App\Models\frigobar', 'frigobar_id', 'id');
-    // }
-    //     public function itens()
-    //     {
-    //         return $this->hasMany('App\Models\iten', 'itens_id', 'id');
-    //     }
+    public function frigobar()
+    {
+        return $this->hasOne('App\Models\frigobar');
+    }
+    public function itens()
+    {
+        return $this->hasOne('App\Models\iten');
+    }
 }
