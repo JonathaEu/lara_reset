@@ -28,13 +28,14 @@ class controlaFrigobar_itens extends Controller
         try {
             $frigobar = $request->frigobar_id;
             $itens = $request->iten_id;
+            $quantidade = $request->quantidade;
             $success = 0;
             $error = 0;
 
-            $itens = array();
-            $quantidade = array();
-            $itens = [1, 2];
-            $quantidade = [3, 6];
+            // $itens = array();
+            // $quantidade = array();
+            // $itens = [1, 2];
+            // $quantidade = [3, 6];
 
             foreach ($itens as $idx => $item) {
                 for ($i = 0; $i < $quantidade[$idx]; $i++) {
