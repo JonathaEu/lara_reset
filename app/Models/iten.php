@@ -20,8 +20,4 @@ class iten extends Model
     {
         return $this->belongsToMany(frigobar::class);
     }
-    public function frigobar_itens()
-    {
-        return $this->belongsToMany(frigobar_iten::class);
-    }
 }

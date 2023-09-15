@@ -32,40 +32,40 @@ use Illuminate\Support\Facades\DB;
 |
 */
 
-Route::group(['prefix' => ''],    function () {
-    Route::apiResource('cliente',   controlaCliente::class);
+Route::group(['prefix' => ''], function () {
+    Route::apiResource('cliente', controlaCliente::class);
 });
 
-Route::group(['prefix' => ''],    function () {
-    Route::apiResource('quarto',   controlaQuarto::class);
+Route::group(['prefix' => ''], function () {
+    Route::apiResource('quarto', controlaQuarto::class);
 });
 
-Route::group(['prefix' => ''],    function () {
-    Route::apiResource('consumo',   controlaConsumo::class);
+Route::group(['prefix' => ''], function () {
+    Route::apiResource('consumo', controlaConsumo::class);
 });
 
-Route::group(['prefix' => ''],    function () {
-    Route::apiResource('reserva',   controlaReserva::class);
+Route::group(['prefix' => ''], function () {
+    Route::apiResource('reserva', controlaReserva::class);
 });
 
-Route::group(['prefix' => ''],    function () {
-    Route::apiResource('tipo_quarto',   controlaTipo_quarto::class);
+Route::group(['prefix' => ''], function () {
+    Route::apiResource('tipo_quarto', controlaTipo_quarto::class);
 });
 
-Route::group(['prefix' => ''],    function () {
-    Route::apiResource('estacionamento',   controlaEstacionamento::class);
+Route::group(['prefix' => ''], function () {
+    Route::apiResource('estacionamento', controlaEstacionamento::class);
 });
 
-Route::group(['prefix' => ''],    function () {
-    Route::apiResource('frigobar_itens',   controlaFrigobar_itens::class);
+Route::group(['prefix' => ''], function () {
+    Route::apiResource('frigobar_itens', controlaFrigobar_itens::class);
 });
 
-Route::group(['prefix' => ''],    function () {
-    Route::apiResource('itens',   controlaItens::class);
+Route::group(['prefix' => ''], function () {
+    Route::apiResource('itens', controlaItens::class);
 });
 
-Route::group(['prefix' => ''],    function () {
-    Route::apiResource('frigobar',   controlaFrigobar::class);
+Route::group(['prefix' => ''], function () {
+    Route::apiResource('frigobar', controlaFrigobar::class);
 });
 
 Route::middleware('api')->get('/user', function (Request $request) {
@@ -97,7 +97,7 @@ Route::get('/reserva_rel', function () {
     // $rel_consumos = reserva::with('consumos')->get();
     // $rel_funcionarios = reserva::with('users')->get();
 
-    return response()->json(['data' => $reservas, 200]);
+    return response()->json(['data' => $reservas], 200);
 
     // return response()->json([
     //     [
@@ -110,16 +110,36 @@ Route::get('/reserva_rel', function () {
 });
 
 Route::get('/frigobar_itens_rel', function () {
-
+    $qtdItem = 0;
     $frigobar = frigobar::with('itens')->get();
-    return $frigobar;
+    // $frigobar_id = '5';
+    $itensIntoFrig = DB::table('frigobar_iten')
+        ->where('frigobar_id', 6)
+        ->where('iten_id', 10)
+        ->count('id');
+    // foreach ($frigobar as $frigobares) {
+    // //     // echo $frigobares;
+    //     // $umFrig = $frigobar[0];
+    // //     $frigDecoded = json_decode($umFrig);
+    // //     $itens = $frigDecoded->itens;
+    // //     foreach ($itens as $idx=> $item) {
+    // //         $qtdItem++;
 
-    // foreach ($frigobar->itens as $item) {
-    //     echo $item->pivot;
-    // }
-    // $frigobar_itens = frigobar_iten::with('frigobar')->get();
-    // return
-    //     $frigobar_itens;
+    // //         $itensDecode = json_decode($itens);
+    // //         // $itensId = $itensDecode->id;
+    // //         // echo "itens:" $item;
+    // //         // foreach($itens as $idx => $item){
+    // //         //     $ocorrencias = 
+    // //         // };
+    // //         // $item1 = $itens[5];
+    //     }
+
+    // $frigobaresDecode = json_decode($frigobares);
+    // echo $frigobaresDecode->id;
+    // echo $frigobaresDecode->itens;
+    // };
+    return $itensIntoFrig;
+
 });
 
 Route::get('/estacionamento_quarto', function () {
