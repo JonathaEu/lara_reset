@@ -108,39 +108,70 @@ Route::get('/reserva_rel', function () {
     //     ]
     // ]);
 });
+Route::get('/estoque', [controlaFrigobar_itens::class, 'estoque']);
+// Route::get('/frigobar_itens_rel', function () {
+//     $qtdItem = 0;
+//     $frigobar = frigobar::with('itens')
+//         ->where('id', 5)
+//         ->count('id');
+//     // ->get();
 
-Route::get('/frigobar_itens_rel', function () {
-    $qtdItem = 0;
-    $frigobar = frigobar::with('itens')->get();
-    // $frigobar_id = '5';
-    $itensIntoFrig = DB::table('frigobar_iten')
-        ->where('frigobar_id', 6)
-        ->where('iten_id', 10)
-        ->count('id');
-    // foreach ($frigobar as $frigobares) {
-    // //     // echo $frigobares;
-    //     // $umFrig = $frigobar[0];
-    // //     $frigDecoded = json_decode($umFrig);
-    // //     $itens = $frigDecoded->itens;
-    // //     foreach ($itens as $idx=> $item) {
-    // //         $qtdItem++;
+//     // $itensIntoFrig = DB::table('frigobar_iten AS fi')
+//     //     ->select(
+//     //         'fi.id as frigobar_item_id',
+//     //         'fi.frigobar_id',
+//     //         // 'fi.iten_id',
+//     //         // 'itens.nome',
+//     //         // 'itens.quantidade as quantidade_estoque'
+//     //     )
+//     //     ->join('itens', 'itens.id', '=', 'fi.iten_id')
+//     //     ->select(
+//     //         'itens.nome',
+//     //         'itens.quantidade as quantidade_estoque',
+//     //         'fi.id as frigobar_item_id',
+//     //         'fi.frigobar_id',
+//     //         'itens.id as id_do_item'
+//     //     )
+//     //     ->where('fi.frigobar_id', 6)
+//     //     ->get();
+//     // $itensIntoFrig = DB::table('frigobar_iten as fi')
+//     //     ->select(
+//     //         'fi.id as frigobar_item_id',
+//     //         'fi.frigobar_id',
+//     //         'it.nome',
+//     //         'it.quantidade as quantidade_estoque',
+//     //         'it.id',
+//     //         DB::raw('COUNT(fi.id) as quantidade_frigobar')
+//     //     )
+//     //     ->join('itens as it', 'it.id', '=', 'fi.iten_id')
+//     //     ->where('fi.frigobar_id', '=', 6)
+//     //     ->groupBy('it.id')
+//     //     ->get();
 
-    // //         $itensDecode = json_decode($itens);
-    // //         // $itensId = $itensDecode->id;
-    // //         // echo "itens:" $item;
-    // //         // foreach($itens as $idx => $item){
-    // //         //     $ocorrencias = 
-    // //         // };
-    // //         // $item1 = $itens[5];
-    //     }
+//     // $itensIntoFrig = DB::select("
+//     //     SELECT 
+//     //         fi.id AS frigobar_item_id,
+//     //         fi.frigobar_id,
+//     //         it.nome,
+//     //         it.quantidade AS quantidade_estoque,
+//     //         COUNT(fi.id) AS quantidade_frigobar
+//     //     FROM
+//     //         frigobar_iten AS fi
+//     //     INNER JOIN
+//     //         itens AS it ON it.id = fi.iten_id
+//     //     WHERE
+//     //         fi.frigobar_id = 6
+//     //     GROUP BY
+//     //         it.id
+//     // ");
 
-    // $frigobaresDecode = json_decode($frigobares);
-    // echo $frigobaresDecode->id;
-    // echo $frigobaresDecode->itens;
-    // };
-    return $itensIntoFrig;
 
-});
+
+//     dd($itensIntoFrig);
+//     return response()->json(['data' => $itensIntoFrig]);
+
+//     // return $itensIntoFrig;
+// });
 
 Route::get('/estacionamento_quarto', function () {
 

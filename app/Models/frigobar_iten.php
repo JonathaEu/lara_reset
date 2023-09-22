@@ -18,7 +18,7 @@ class frigobar_iten extends Model
 
     public function itens()
     {
-        return $this->belongsToMany(iten::class);
+        return $this->hasMany('App\Models\iten', 'id', 'iten_id');
     }
 
 }

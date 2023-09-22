@@ -6,8 +6,10 @@ use App\Http\Requests\frigobar_itensRequest;
 use App\Http\Resources\frigobar_itensResource;
 use App\Models\frigobar;
 use App\Models\frigobar_iten;
+use App\Models\iten;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class controlaFrigobar_itens extends Controller
 {
@@ -37,36 +39,57 @@ class controlaFrigobar_itens extends Controller
             // $itens = [1, 2];
             // $quantidade = [3, 6];
 
+            $counter = 0;
+            $negative = -1;
+            // $itens = array();
+            // $quantidade = array();
+            // $itens = [1, 2];
+            // $quantidade = [3, 6];
+
             foreach ($itens as $idx => $item) {
                 for ($i = 0; $i < $quantidade[$idx]; $i++) {
-                    // dd($quantidade[$item]);
+
+                    // dd($quantidade[$idx]);
                     if (is_array($itens)) {
-                        // frigobar_iten::create($request->validated());
-                        // foreach ($itens as $item) {
+
                         if (
                             frigobar_iten::create([
                                 "iten_id" => $item,
                                 "frigobar_id" => $frigobar
                             ])
+
                         ) {
                             $success++;
+                            $counter++;
+                            $calc = $counter * $negative;
+                            $total = $quantidade[$idx] + $calc;
+                            dd($total);
+                            // dd($counter);
+                            // DB::table('itens')
+                            //     ->whereIn('id', $itens)
+                            //     ->decrement('quantidade', $quantidade[$idx]);
                         } else {
                             $error++;
                         }
                     } else {
-                        if (
-                            frigobar_iten::create([
-                                "iten_id" => $itens,
-                                "frigobar_id" => $frigobar
-                            ])
-                        ) {
-                            $success++;
-                        } else {
-                            $error++;
-                        }
+                        // if (
+                        //     frigobar_iten::create([
+                        //         "iten_id" => $itens,
+                        //         "frigobar_id" => $frigobar
+                        //     ])
+                        // ) {
+                        //     $success++;
+                        //     // DB::table('itens')
+                        //     //     ->whereIn('id', $itens)
+                        //     //     ->decrement('quantidade', $quantidade);
+
+                        // } else {
+                        //     $error++;
+                        // }
                     }
                 }
             }
+
 
             if (!$error && $success > 0) {
                 $msg = "Itens cadastrados";
@@ -115,5 +138,91 @@ class controlaFrigobar_itens extends Controller
     public function destroy(frigobar_iten $frigobar_iten)
     {
         //
+    }
+    public function estoque(frigobar_iten $frigobar_iten)
+    {
+        $qtdItem = 0;
+
+        // $sql = "select id, frigobar_id, iten_id, count(iten_id) as count from frigobar_iten group by iten_id";
+        // // $frigobar = DB::select($sql);
+        // $frigobar = frigobar_iten::select(['id', 'frigobar_id', 'iten_id'])
+        //     ->with('itens')
+        //     ->select('iten.id')
+        //     ->where('frigobar_id', 6)
+        //     // ->groupBy(['iten_id'])
+        //     ->get()
+        //     // ->toArray();
+        // ;
+        // $frigobar = DB::table('frigobar_iten')->selectRaw('*, count(*)')->groupBy('iten_id')->get();
+        // dd($frigobar);
+        // $frigobar = frigobar_iten::withCount
+        // ->get();
+
+        $itensIntoFrig = DB::table('frigobar_iten AS fi')
+            ->select(
+                'fi.id as frigobar_item_id',
+                'fi.frigobar_id',
+                // 'fi.iten_id',
+                // 'itens.nome',
+                // 'itens.quantidade as quantidade_estoque'
+            )
+            ->join('itens', 'itens.id', '=', 'fi.iten_id')
+            ->select(
+                'itens.nome',
+                'itens.quantidade as quantidade_estoque',
+                'fi.id as frigobar_item_id',
+                'fi.frigobar_id',
+                'itens.id as id_do_item'
+            )
+            ->where('fi.frigobar_id', 6)
+            ->get()
+            ->toArray();
+        $itensCountInFrigobar = DB::table('frigobar_iten AS fi')
+            ->select(
+                'itens.nome',
+                'itens.quantidade as quantidade_estoque',
+                DB::raw('COUNT(fi.id) as quantidade_no_frigobar')
+            )
+            ->join('itens', 'itens.id', '=', 'fi.iten_id')
+            ->where('fi.frigobar_id', 6)
+            ->groupBy('itens.nome', 'itens.quantidade')
+            ->get();
+        // $itensIntoFrig = [];
+
+        // $frigobarItens = $itensIntoFrig->select('nome');
+        // $itensIntoFrig = DB::table('frigobar_iten as fi')
+        //     ->selectRaw(
+        //         'fi.id as frigobar_item_id,
+        //         fi.frigobar_id,
+        //         it.nome,
+        //         it.quantidade as quantidade_estoque,
+        //         it.id,
+        //         count(fi.id) as quantidade_frigobar'
+        //     )
+        //     ->join('itens as it', 'it.id', '=', 'fi.iten_id')
+        //     ->where('fi.frigobar_id', '=', 6)
+        //     ->groupBy('it.id')
+        //     ->get();
+
+        // $itensIntoFrig = DB::select("
+        //     SELECT 
+        //         fi.id AS frigobar_item_id,
+        //         fi.frigobar_id,
+        //         it.nome,
+        //         it.quantidade AS quantidade_estoque,
+        //         COUNT(fi.id) AS quantidade_frigobar
+        //     FROM
+        //         frigobar_iten AS fi
+        //     INNER JOIN
+        //         itens AS it ON it.id = fi.iten_id
+        //     WHERE
+        //         fi.frigobar_id = 6
+        //     GROUP BY
+        //         it.id
+        // ");
+        return response()->json(['data' => $itensCountInFrigobar]);
+
+        // return $itensIntoFrig;
+
     }
 }

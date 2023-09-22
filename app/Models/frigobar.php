@@ -19,6 +19,7 @@ class frigobar extends Model
         'numero',
     ];
 
+
     /**
      * Summary of quarto
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
