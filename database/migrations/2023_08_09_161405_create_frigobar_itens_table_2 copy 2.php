@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('frigobar_id')->references('id')->on('frigobar');
             $table->foreignId('iten_id')->references('id')->on('itens');
+            $table->integer('qtd_item');
             $table->timestamps();
         });
     }
