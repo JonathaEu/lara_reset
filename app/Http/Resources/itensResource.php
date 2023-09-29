@@ -19,7 +19,7 @@ class itensResource extends JsonResource
                 'id' => $this->id,
                 'nome' => $this->nome,
                 'valor' => $this->valor,
-                'quantidade' => $this->quantidade,
+                'estoque' => $this->estoque,
             ];
     }
 }

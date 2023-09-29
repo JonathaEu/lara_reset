@@ -25,12 +25,12 @@ class StoreReservaRequest extends FormRequest
             "clientes_id" => ['required'],
             "quartos_id" => ['required'],
             "users_id" => ['required'],
-            "consumos_id" => ['required'],
+            // "consumos_id" => ['required'],
             "status" => ['required'],
             "dt_inicial" => ['required'],
             "dt_final" => ['required'],
             "check_in" => ['required'],
-            "check_out" => ['required'],
+            // "check_out" => ['required'],
         ];
     }
 }

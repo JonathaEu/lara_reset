@@ -12,6 +12,7 @@ class frigobar_iten extends Model
     protected $fillable = [
         'frigobar_id',
         'iten_id',
+        'quantidade'
     ];
 
     protected $table = 'frigobar_iten';

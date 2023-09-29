@@ -6,6 +6,7 @@ use App\Models\consumo;
 use App\Http\Requests\StoreconsumoRequest;
 use App\Http\Resources\consumoResource;
 use Exception;
+use Illuminate\Http\Request;
 
 class controlaConsumo extends Controller
 {
@@ -14,7 +15,7 @@ class controlaConsumo extends Controller
      */
     public function index()
     {
-        return  consumoResource::collection(consumo::all());
+        return consumoResource::collection(consumo::all());
     }
 
     /**
@@ -23,10 +24,23 @@ class controlaConsumo extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreconsumoRequest $request)
+    public function store(Request $request)
     {
         try {
-            consumo::create($request->validated());
+            $item = $request->itens_id;
+            $valor_total = $request->valor_total;
+            $reservas_id = $request->reservas_id;
+            $quantidade = $request->quantidade;
+            consumo::create([
+                'itens_id' => $item,
+                'reservas_id' => $reservas_id,
+                'quantidade' => $quantidade,
+                'valor_total' => $valor_total
+            ]);
+            // $valor_total = DB::table('consumo')
+            // ->where('itens_id',$item)
+            // ->where('quartos_id',$quarto)
+
             return response()->json(["success" => true, "mensagem" => 'Consumo Registrado Com Sucesso'], 200);
         } catch (Exception $e) {
             return response()->json(["success" => false, "error" => $e], 400);

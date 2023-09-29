@@ -15,7 +15,7 @@ class controlaReserva extends Controller
      */
     public function index()
     {
-        return  reservaResource::collection(reserva::all());
+        return reservaResource::collection(reserva::all());
     }
 
     /**
@@ -29,7 +29,7 @@ class controlaReserva extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public  function store(StoreReservaRequest  $request)
+    public function store(StoreReservaRequest $request)
     {
         try {
             reserva::create($request->validated());
@@ -41,7 +41,7 @@ class controlaReserva extends Controller
     /**
      * Display the specified resource.
      */
-    public  function show(reserva  $reserva)
+    public function show(reserva $reserva)
     {
         try {
             return new reservaResource($reserva);
@@ -63,7 +63,7 @@ class controlaReserva extends Controller
      * Update the specified resource in storage.
      */
 
-    public  function Update(StoreReservaRequest  $request, reserva $reserva)
+    public function Update(StoreReservaRequest $request, reserva $reserva)
     {
         try {
             $reserva->update($request->validated());
@@ -73,6 +73,8 @@ class controlaReserva extends Controller
         }
     }
 
+
+    // public function CheckOut()
 
     /**
      * Remove the specified resource from storage.

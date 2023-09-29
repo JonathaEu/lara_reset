@@ -13,7 +13,8 @@ class consumo extends Model
     protected $fillable = [
         'itens_id',
         'quantidade',
-        'valor_total'
+        'valor_total',
+        'reservas_id'
     ];
     protected $table = 'consumo';
 

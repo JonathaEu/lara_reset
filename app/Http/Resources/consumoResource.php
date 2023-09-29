@@ -18,6 +18,7 @@ class consumoResource extends JsonResource
             [
                 'id_consumo' => $this->id_consumo,
                 'itens_id' => $this->itens_id,
+                'reservas_id' => $this->reservas_id,
                 'quantidade' => $this->quantidade,
                 'valor_total' => $this->valor_total,
             ];

@@ -14,7 +14,7 @@ class Kernel extends HttpKernel
      * @var array<int, class-string|string>
      */
     protected $middleware = [
-        // \App\Http\Middleware\TrustHosts::class,
+            // \App\Http\Middleware\TrustHosts::class,
         \App\Http\Middleware\TrustProxies::class,
         \Illuminate\Http\Middleware\HandleCors::class,
         \App\Http\Middleware\PreventRequestsDuringMaintenance::class,
@@ -39,8 +39,8 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
-            // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-            \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
+                // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+            \Illuminate\Routing\Middleware\ThrottleRequests::class . ':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
@@ -64,5 +64,32 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'apiJWT' => \App\Http\Middleware\apiProtectedRoutes::class,
     ];
+
+    /**
+     * The application's middleware aliases.
+     * 
+     * Aliases may be used instead of class names to conveniently assign middleware to routes and groups.
+     * 
+     * @return array<string, class-string|string>
+     */
+    public function getMiddlewareAliases()
+    {
+        return $this->middlewareAliases;
+    }
+
+    /**
+     * The application's middleware aliases.
+     * 
+     * Aliases may be used instead of class names to conveniently assign middleware to routes and groups.
+     * 
+     * @param array<string, class-string|string> $middlewareAliases The application's middleware aliases.
+     * @return self
+     */
+    public function setMiddlewareAliases($middlewareAliases): self
+    {
+        $this->middlewareAliases = $middlewareAliases;
+        return $this;
+    }
 }

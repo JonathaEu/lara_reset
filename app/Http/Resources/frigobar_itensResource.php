@@ -19,6 +19,7 @@ class frigobar_itensResource extends JsonResource
                 'id' => $this->id,
                 'frigobar_id' => $this->frigobar_id,
                 'iten_id' => $this->iten_id,
+                'quantidade' => $this->quantidade,
 
             ];
     }
