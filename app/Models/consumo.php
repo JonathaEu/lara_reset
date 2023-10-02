@@ -11,7 +11,8 @@ class consumo extends Model
     use HasFactory;
 
     protected $fillable = [
-        'itens_id',
+        'iten_id',
+        'frigobar_id',
         'quantidade',
         'valor_total',
         'reservas_id'

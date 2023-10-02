@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\consumo;
 use App\Http\Requests\StoreconsumoRequest;
 use App\Http\Resources\consumoResource;
+use App\Models\frigobar_iten;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -27,23 +28,53 @@ class controlaConsumo extends Controller
     public function store(Request $request)
     {
         try {
-            $item = $request->itens_id;
+            $itens = $request->itens_id;
+            $frigobar = $request->frigobar_id;
             $valor_total = $request->valor_total;
             $reservas_id = $request->reservas_id;
             $quantidade = $request->quantidade;
-            consumo::create([
-                'itens_id' => $item,
-                'reservas_id' => $reservas_id,
-                'quantidade' => $quantidade,
-                'valor_total' => $valor_total
-            ]);
+            $msg = '';
+
+            if (
+                consumo::create([
+                    'iten_id' => $itens,
+                    'frigobar_id' => $frigobar,
+                    'reservas_id' => $reservas_id,
+                    'quantidade' => $quantidade,
+                    'valor_total' => $valor_total
+                ])
+
+            ) {
+                $itenFrigobar = frigobar_iten::where('frigobar_id', $frigobar)
+                    ->where('iten_id', $itens)
+                    ->select('quantidade');
+                if (!$itenFrigobar->get()->isEmpty() && $itenFrigobar->get()->first()['quantidade'] > 0) {
+                    $quantidadeAnterior = $itenFrigobar->get()->first()['quantidade'];
+                    $novaQuantidade = $quantidadeAnterior - $quantidade;
+
+                    $itenFrigobar->update([
+                        "quantidade" => $novaQuantidade
+                    ]);
+
+                    $msg = 'consumo registrado com sucesso';
+
+                } else {
+                    $msg = 'Não há itens para serem removidos';
+                }
+                // return response()->json([
+                //     'succes' => true,
+                //     'mensagem' => $msg
+                // ], 200);
+            } else {
+                $msg = 'Falha ao registrar consumo';
+            }
             // $valor_total = DB::table('consumo')
             // ->where('itens_id',$item)
             // ->where('quartos_id',$quarto)
 
-            return response()->json(["success" => true, "mensagem" => 'Consumo Registrado Com Sucesso'], 200);
+            return response()->json(["success" => true, "mensagem" => $msg], 200);
         } catch (Exception $e) {
-            return response()->json(["success" => false, "error" => $e], 400);
+            return response()->json(["success" => false, "mensagem" => $msg, "error" => $e], 400);
         }
     }
 

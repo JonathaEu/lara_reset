@@ -13,6 +13,7 @@ return new class extends Migration {
         Schema::create('consumo', function (Blueprint $table) {
             $table->id();
             $table->foreignId('iten_id')->references('id')->on('itens');
+            $table->foreignId('frigobar_id')->references('id')->on('frigobar');
             $table->foreignId('reservas_id')->constrained();
             $table->integer('quantidade');
             $table->float('valor_total');

@@ -15,7 +15,7 @@ class controlaFrigobar extends Controller
      */
     public function index()
     {
-        return  frigobarResource::collection(frigobar::all());
+        return frigobarResource::collection(frigobar::all());
     }
 
     /**
@@ -35,10 +35,14 @@ class controlaFrigobar extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(frigobar $frigobar)
+    public function show($id)
     {
         try {
-            return new frigobarResource($frigobar);
+            $frigobar = frigobar::where('id', $id)
+                ->get()
+                ->toArray();
+            return $frigobar;
+
         } catch (Exception $e) {
             return response()->json(["success" => false, "error" => $e], 400);
         }

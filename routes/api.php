@@ -50,8 +50,6 @@ Route::middleware(['api'])->group(function () {
     });
 
     Route::get('/frigobar_quarto', function () {
-
-        // $quartos_id = frigobar->quartos_id;
         $frigobar = frigobar::with('quarto')->get();
         return
             $frigobar;
@@ -65,9 +63,6 @@ Route::middleware(['api'])->group(function () {
             ->with('clientes')
             ->with('users')
             ->get();
-        // $rel_clientes = reserva::with('clientes')->get();
-        // $rel_consumos = reserva::with('consumos')->get();
-        // $rel_funcionarios = reserva::with('users')->get();
 
         return response()->json(['data' => $reservas], 200);
 
@@ -89,25 +84,7 @@ Route::middleware(['api'])->group(function () {
             $estacionamento;
     });
 
-
-    Route::post('/deleteItemFromFrigobar', function (request $request) {
-        // $itens_frigobar = DB::select(`select * from frigobar_iten where iten_id = $iten_id and frigobar_id = $frigobar_id`, [1]);
-        // return response()->json([$itens_frigobar]);
-        $iten_id = $request->iten_id;
-        $frigobar_id = $request->frigobar_id;
-        $id = frigobar_iten::select('id')
-            ->where('frigobar_id', $frigobar_id)
-            ->where('iten_id', $iten_id)->take(1)
-            ->delete();
-
-        return response()->json(['Mensagem' => 'Ocorrência removida com sucesso'], 200);
-        // $id->pluck(id);
-        // dd($id);
-        // $id->;
-    });
-
-    Route::post('/deleteManyItens', [controlaFrigobar_itens::class, 'destroy']);
-
+    // Route::post('/deleteManyItens', [controlaFrigobar_itens::class, 'destroy']);
 });
 
 

@@ -13,10 +13,10 @@ class controlaCliente extends Controller
 {
     public function index()
     {
-        return  clienteResource::collection(cliente::all());
+        return clienteResource::collection(cliente::all());
     }
 
-    public  function store(StoreClienteRequest  $request)
+    public function store(StoreClienteRequest $request)
     {
         try {
             cliente::create($request->validated());
@@ -25,7 +25,7 @@ class controlaCliente extends Controller
             return response()->json(["success" => false, "error" => $e], 400);
         }
     }
-    public  function Update(StoreClienteRequest  $request, cliente $cliente)
+    public function Update(StoreClienteRequest $request, cliente $cliente)
     {
         try {
             $cliente->update($request->validated());
@@ -34,10 +34,17 @@ class controlaCliente extends Controller
             return response()->json(["success" => false, "error" => $e], 400);
         }
     }
-    public  function show(cliente  $cliente)
+    public function show($id)
     {
         try {
-            return new clienteResource($cliente);
+            $cliente = cliente::where('id', $id)
+                ->get()
+                ->toArray();
+
+            return response()->json([
+                'data' => $cliente,
+                'success' => true
+            ], 200);
         } catch (Exception $e) {
             return response()->json(["success" => false, "error" => $e], 400);
         }

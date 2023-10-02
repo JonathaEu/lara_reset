@@ -33,78 +33,55 @@ class controlaFrigobar_itens extends Controller
         $quantidade = $request->quantidade;
         $success = 0;
         $error = 0;
-        $msg = '';
-        $check_already_exist = DB::table('frigobar_iten')
-            ->select('quantidade')
-            ->where('frigobar_id', $frigobar)
-            ->where('iten_id', $itens)
-            ->pluck('quantidade');
-        // ->get();
-        // ->toArray();
-        if ($check_already_exist->isNotEmpty()) {
-            foreach ($check_already_exist as $cae) {
 
-                if ($cae > 0 && !null) {
-                    try {
-                        if (
-                            DB::table('frigobar_iten')
-                                ->where('frigobar_id', $frigobar)
-                                ->where('iten_id', $itens)
-                                ->increment('quantidade', $quantidade)
-                        ) {
-                            $success++;
-                            $msg = 'Item(S) adicionado(s) com sucesso';
 
-                            DB::table('itens')
-                                ->where('id', $itens)
-                                ->decrement('estoque', $quantidade);
-                        } else {
-                            $error++;
-                            $msg = 'Erro ao adicionar item(s)';
-                        }
-                        return response()->json([
-                            'success' => true,
-                            'msg' => $msg
-                        ], 200);
+        try {
+            $itenFrigobar = frigobar_iten::where('frigobar_id', $frigobar)
+                ->where('iten_id', $itens)
+                ->select('quantidade');
 
-                    } catch (Exception $e) {
-                        return response()->json([
-                            "success" => false,
-                            "mensagem" => $msg,
-                            "error" => $e
-                        ], 400);
-                    }
-                }
+            if (!$itenFrigobar->get()->isEmpty()) {
+                $quantidadeAnterior = $itenFrigobar->get()->first()['quantidade'];
+                $novaQuantidade = $quantidadeAnterior + $quantidade;
+
+                $itenFrigobar->update([
+                    "quantidade" => $novaQuantidade
+                ]);
+                $msg = 'Item(S) adicionado(s) com sucesso';
+            } else {
+                $itenFrigobar = new frigobar_iten;
+                $itenFrigobar->iten_id = $itens;
+                $itenFrigobar->frigobar_id = $frigobar;
+                $itenFrigobar->quantidade = $quantidade;
+                $itenFrigobar->save();
+
+                // frigobar_iten::create([
+                //     'frigobar_id' => $frigobar,
+                //     'iten_id' => $itens,
+                //     'quantidade' => $quantidade
+                // ]);
+
+                $msg = 'Item(S) cadastrado(s) com sucesso';
             }
-        } else {
-            try {
-                if (
-                    frigobar_iten::create([
-                        'frigobar_id' => $frigobar,
-                        'iten_id' => $itens,
-                        'quantidade' => $quantidade
-                    ])
-                ) {
-                    $success++;
-                    $msg = 'Item(S) adicionado(s) com sucesso';
-                } else {
-                    $error++;
-                    $msg = 'Erro ao adicionar item(s)';
-                }
-                return response()->json([
+
+            return response()->json(
+                [
                     'success' => true,
                     'msg' => $msg
-                ], 200);
+                ],
+                200
+            );
 
-            } catch (Exception $e) {
-                return response()->json([
-                    "success" => false,
-                    "mensagem" => $msg,
-                    "error" => $e
-                ], 400);
-            }
+        } catch (Exception $e) {
+            return response()->json([
+                "success" => false,
+                "mensagem" => "Erro no servidor",
+                "error" => $e
+            ], 400);
         }
+
     }
+
     /**
      * Display the specified resource.
      */
@@ -135,50 +112,38 @@ class controlaFrigobar_itens extends Controller
      */
     public function destroy(Request $request)
     {
-        $frigobar = $request->frigobar_id;
-        $itens = $request->iten_id;
-        $quantidade = $request->quantidade;
-        $success = 0;
-        $error = 0;
-        $msg = '';
-        $check_already_exist = DB::table('frigobar_iten')
-            ->select('quantidade')
-            ->where('frigobar_id', $frigobar)
-            ->where('iten_id', $itens)
-            ->pluck('quantidade');
-        // ->get();
-        // ->toArray();
-        if ($check_already_exist->isNotEmpty()) {
-            foreach ($check_already_exist as $cae) {
+        try {
+            $frigobar = $request->frigobar_id;
+            $itens = $request->iten_id;
+            $quantidade = $request->quantidade;
+            $success = 0;
+            $error = 0;
+            $msg = '';
 
-                if ($cae > 0 && !null) {
-                    try {
-                        if (
-                            DB::table('frigobar_iten')
-                                ->where('frigobar_id', $frigobar)
-                                ->where('iten_id', $itens)
-                                ->decrement('quantidade', $quantidade)
-                        ) {
-                            $success++;
-                            $msg = 'Item(S) adicionado(s) com sucesso';
-                        } else {
-                            $error++;
-                            $msg = 'Erro ao adicionar item(s)';
-                        }
-                        return response()->json([
-                            'success' => true,
-                            'msg' => $msg
-                        ], 200);
+            $itenFrigobar = frigobar_iten::where('frigobar_id', $frigobar)
+                ->where('iten_id', $itens)
+                ->select('quantidade');
+            if (!$itenFrigobar->get()->isEmpty() && $itenFrigobar->get()->first()['quantidade'] > 0) {
+                $quantidadeAnterior = $itenFrigobar->get()->first()['quantidade'];
+                $novaQuantidade = $quantidadeAnterior - $quantidade;
 
-                    } catch (Exception $e) {
-                        return response()->json([
-                            "success" => false,
-                            "mensagem" => $msg,
-                            "error" => $e
-                        ], 400);
-                    }
-                }
+                $itenFrigobar->update([
+                    "quantidade" => $novaQuantidade
+                ]);
+                $msg = 'Sucesso remover itens';
+            } else {
+                $msg = 'Não há itens para serem removidos';
             }
+            return response()->json([
+                'succes' => true,
+                'mensagem' => $msg
+            ], 200)
+            ;
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'mensagem' => $msg
+            ], 400);
         }
     }
     public function estoque(frigobar_iten $frigobar_iten)

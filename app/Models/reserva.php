@@ -27,7 +27,7 @@ class reserva extends Model
     }
     public function quartos()
     {
-        return $this->belongsTo('App\models\quarto');
+        return $this->belongsTo('App\models\quarto')->with('frigobar');
     }
     public function consumos()
     {
