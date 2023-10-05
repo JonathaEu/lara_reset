@@ -8,6 +8,7 @@ use App\Http\Resources\consumoResource;
 use App\Models\frigobar_iten;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class controlaConsumo extends Controller
 {
@@ -81,11 +82,36 @@ class controlaConsumo extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(consumo $consumo)
+    public function show(Request $request)
     {
 
         try {
-            return new consumoResource($consumo);
+            $reserva = $request->reservas_id;
+            $reserva_consumo = DB::table('consumo')
+                ->select(
+                    'itens.nome',
+                    'consumo.quantidade',
+                    'consumo.valor_total',
+                    'consumo.created_at',
+                )
+                ->join('itens', 'itens.id', '=', 'consumo.iten_id')
+                ->where('reservas_id', $reserva)
+                ->groupBy(
+                    'itens.nome',
+                    'consumo.quantidade',
+                    'consumo.valor_total',
+                    'consumo.id',
+                    'consumo.created_at',
+                )
+                ->get()
+                ->toArray();
+
+            return response()->json([
+                'success' => true,
+                'data' => $reserva_consumo,
+
+            ], 200);
+
         } catch (Exception $e) {
             return response()->json(["success" => false, "error" => $e], 400);
         }

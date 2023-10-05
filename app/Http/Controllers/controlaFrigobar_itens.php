@@ -112,50 +112,19 @@ class controlaFrigobar_itens extends Controller
      */
     public function destroy(Request $request)
     {
-        try {
-            $frigobar = $request->frigobar_id;
-            $itens = $request->iten_id;
-            $quantidade = $request->quantidade;
-            $success = 0;
-            $error = 0;
-            $msg = '';
 
-            $itenFrigobar = frigobar_iten::where('frigobar_id', $frigobar)
-                ->where('iten_id', $itens)
-                ->select('quantidade');
-            if (!$itenFrigobar->get()->isEmpty() && $itenFrigobar->get()->first()['quantidade'] > 0) {
-                $quantidadeAnterior = $itenFrigobar->get()->first()['quantidade'];
-                $novaQuantidade = $quantidadeAnterior - $quantidade;
-
-                $itenFrigobar->update([
-                    "quantidade" => $novaQuantidade
-                ]);
-                $msg = 'Sucesso remover itens';
-            } else {
-                $msg = 'Não há itens para serem removidos';
-            }
-            return response()->json([
-                'succes' => true,
-                'mensagem' => $msg
-            ], 200)
-            ;
-        } catch (Exception $e) {
-            return response()->json([
-                'success' => false,
-                'mensagem' => $msg
-            ], 400);
-        }
     }
-    public function estoque(frigobar_iten $frigobar_iten)
+    public function estoque(Request $request)
     {
         try {
+            $frigobar = $request->frigobar_id;
             $armazenamento = DB::table('frigobar_iten AS fi')
                 ->select(
                     'fi.quantidade',
                     'itens.nome'
                 )
                 ->join('itens', 'itens.id', '=', 'fi.iten_id')
-                ->where('frigobar_id', 5)
+                ->where('frigobar_id', $frigobar)
                 ->groupBy('itens.nome', 'fi.quantidade')
                 ->get();
             // ->toArray();

@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreQuartoRequest;
 use App\Http\Resources\quartoResource;
 use App\Models\quarto;
+use App\Models\reserva;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class controlaQuarto extends Controller
 {
@@ -15,7 +17,7 @@ class controlaQuarto extends Controller
      */
     public function index()
     {
-        return  quartoResource::collection(quarto::all());
+        return quartoResource::collection(quarto::all());
     }
 
     /**
@@ -35,15 +37,25 @@ class controlaQuarto extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(quarto $quarto)
+    public function show($id)
     {
         try {
-            return new quartoResource($quarto);
+            $quarto = quarto::where('id', $id)
+                ->get()
+                ->toArray();
+
+            return response()->json([
+                'data' => $quarto,
+                'success' => true
+            ], 200);
+
         } catch (Exception $e) {
-            return response()->json(["success" => false, "error" => $e], 400);
+            return response()->json([
+                "success" => false,
+                "error" => $e
+            ], 400);
         }
     }
-
     /**
      * Update the specified resource in storage.
      */
@@ -55,6 +67,25 @@ class controlaQuarto extends Controller
         } catch (Exception $e) {
             return response()->json(["success" => false, "error" => $e], 400);
         }
+    }
+
+    public function MostValuableRoom()
+    {
+        $msg = '';
+        try {
+            $quartos = DB::table('reservas')
+                ->pluck('quartos_id')
+                ->toArray();
+
+            $MFR = array_count_values($quartos);
+            arsort($MFR);
+
+            dd(array_key_first($MFR));
+            // $MVR = max($MFR);
+        } catch (Exception $e) {
+            $msg = 'deu ruim';
+        }
+        return $MFR;
     }
 
     /**

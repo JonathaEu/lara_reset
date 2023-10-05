@@ -55,6 +55,9 @@ Route::middleware(['api'])->group(function () {
             $frigobar;
     });
 
+    Route::post('/showConsumo', [controlaConsumo::class, 'show']);
+    Route::post('/pagamento', [controlaReserva::class, 'pagamento']);
+
     Route::get('/reserva_rel', function () {
 
         // $quartos_id = frigobar->quartos_id;
@@ -75,7 +78,7 @@ Route::middleware(['api'])->group(function () {
         //     ]
         // ]);
     });
-    Route::get('/armazenamento', [controlaFrigobar_itens::class, 'estoque']);
+    Route::post('/armazenamento', [controlaFrigobar_itens::class, 'estoque']);
 
     Route::get('/estacionamento_quarto', function () {
 
@@ -83,6 +86,8 @@ Route::middleware(['api'])->group(function () {
         return
             $estacionamento;
     });
+
+    Route::get('/MVR', [controlaQuarto::class, 'MostValuableRoom']);
 
     // Route::post('/deleteManyItens', [controlaFrigobar_itens::class, 'destroy']);
 });

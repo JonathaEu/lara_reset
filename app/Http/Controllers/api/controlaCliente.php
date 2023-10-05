@@ -45,8 +45,12 @@ class controlaCliente extends Controller
                 'data' => $cliente,
                 'success' => true
             ], 200);
+
         } catch (Exception $e) {
-            return response()->json(["success" => false, "error" => $e], 400);
+            return response()->json([
+                "success" => false,
+                "error" => $e
+            ], 400);
         }
     }
 
