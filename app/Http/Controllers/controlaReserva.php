@@ -9,6 +9,7 @@ use App\Http\Requests\StorereservaRequest;
 use App\Http\Resources\reservaResource;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class controlaReserva extends Controller
 {
@@ -73,8 +74,43 @@ class controlaReserva extends Controller
                 ->get()
                 ->toArray();
 
+            $clientes = DB::table('clientes')
+                ->select(
+                    'id',
+                    'nome'
+                )
+                ->get()
+                ->toArray();
+
+            $listaClientes = [];
+            foreach ($clientes as $client) {
+
+                $listaClientes[] = [
+                    "label" => $client->nome,
+                    "value" => $client->id
+                ];
+            }
+            $quartos = DB::table('quartos')
+                ->select(
+                    'id',
+                    'nome'
+                )
+                ->get()
+                ->toArray();
+
+            $listaQuartos = [];
+            foreach ($quartos as $quarto) {
+
+                $listaQuartos[] = [
+                    "label" => $quarto->nome,
+                    "value" => $quarto->id
+                ];
+            }
+            // return $listaClientes;
             return response()->json([
                 'data' => $reserva,
+                'clientes' => $listaClientes,
+                'quartos' => $listaQuartos,
                 'success' => true
             ], 200);
 
@@ -82,6 +118,47 @@ class controlaReserva extends Controller
             return response()->json([
                 "success" => false,
                 "error" => $e
+            ], 400);
+        }
+    }
+
+    public function checkIn($id, Request $request)
+    {
+        try {
+            $check_in = $request->check_in;
+            $reserva = reserva::find($id);
+            $reserva->check_in = $check_in;
+            $reserva->status = 'iniciado';
+            $reserva->save();
+
+            return response()->json([
+                'mensagem' => 'Check in registrado com sucesso',
+                'success' => true,
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'mensagem' => 'falha no servidor',
+                'success' => false,
+            ], 400);
+        }
+    }
+    public function checkOut($id, Request $request)
+    {
+        try {
+            $check_out = $request->check_out;
+            $reserva = reserva::find($id);
+            $reserva->check_out = $check_out;
+            $reserva->status = 'finalizado';
+            $reserva->save();
+
+            return response()->json([
+                'mensagem' => 'Check out registrado com sucesso',
+                'success' => true,
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'mensagem' => 'falha no servidor',
+                'success' => false,
             ], 400);
         }
     }

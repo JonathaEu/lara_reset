@@ -79,6 +79,8 @@ Route::middleware(['api'])->group(function () {
         // ]);
     });
     Route::post('/armazenamento', [controlaFrigobar_itens::class, 'estoque']);
+    Route::put('/check-in/{id}', [controlaReserva::class, 'checkIn']);
+    Route::put('/check-out/{id}', [controlaReserva::class, 'checkOut']);
 
     Route::get('/estacionamento_quarto', function () {
 
