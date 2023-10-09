@@ -23,14 +23,25 @@ class controlaQuarto extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreQuartoRequest $request)
+    public function store(Request $request)
     {
-        ($request->validated());
         try {
-            quarto::create($request->validated());
+            $nome = $request->nome;
+            $numero = $request->numero;
+            $valor = $request->valor;
+            $max_cap = $request->max_cap;
+            $tipo_quartos_id = $request->tipo_quartos_id;
+
+            quarto::create([
+                "nome" => $nome,
+                "numero" => $numero,
+                "valor" => $valor,
+                "max_cap" => $max_cap,
+                "tipo_quartos_id" => $tipo_quartos_id,
+            ]);
             return response()->json(["success" => true, "mensagem" => 'Acomodação registrada'], 200);
         } catch (Exception $e) {
-            return response()->json(["success" => false, "mensagem" => $e, "error" => $e], 400);
+            return response()->json(["success" => false, "mensagem" => "Erro no servidor", "error" => $e], 400);
         }
     }
 
@@ -77,15 +88,26 @@ class controlaQuarto extends Controller
                 ->pluck('quartos_id')
                 ->toArray();
 
-            $MFR = array_count_values($quartos);
-            arsort($MFR);
+            $MFRcount = array_count_values($quartos);
+            arsort($MFRcount);
 
-            dd(array_key_first($MFR));
+            $MFR = (array_key_first($MFRcount));
+
+            $quartoMaisFrequente = DB::table('quartos')
+                ->select('nome')
+                ->where('id', $MFRcount)
+                ->get();
+            return response()->json([
+                'success' => true,
+                'quartoMaisFrequente' => $quartoMaisFrequente
+            ], 200);
             // $MVR = max($MFR);
         } catch (Exception $e) {
-            $msg = 'deu ruim';
+            return response()->json([
+                'success' => false,
+                'erro' => $e
+            ], 400);
         }
-        return $MFR;
     }
 
     /**

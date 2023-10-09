@@ -32,13 +32,29 @@ class controlaReserva extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreReservaRequest $request)
+    public function store(Request $request)
     {
         try {
-            reserva::create($request->validated());
-            return response()->json(["success" => true, "mensagem" => 'Reserva Realizada Com Sucesso'], 200);
+            $clientes_id = $request->clientes_id;
+            $quartos_id = $request->quartos_id;
+            $users_id = $request->users_id;
+            $status = $request->status;
+            $dt_inicial = $request->dt_inicial;
+            $dt_final = $request->dt_final;
+            $check_in = $request->check_in;
+
+            reserva::create([
+                "clientes_id" => $clientes_id,
+                "quartos_id" => $quartos_id,
+                "users_id" => $users_id,
+                "status" => $status,
+                "dt_inicial" => $dt_inicial,
+                "dt_final" => $dt_final,
+                "check_in" => $check_in,
+            ]);
+            return response()->json(["success" => true, "mensagem" => 'Reserva registrada'], 200);
         } catch (Exception $e) {
-            return response()->json(["success" => false, "error" => $e], 400);
+            return response()->json(["success" => false, "mensagem" => "Erro no servidor", "error" => $e], 400);
         }
     }
     /**

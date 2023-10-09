@@ -130,6 +130,46 @@ class controlaConsumo extends Controller
         }
     }
 
+    public function mostFrequentlyItem()
+    {
+        try {
+            $item = DB::table('consumo')
+                ->pluck('iten_id')
+                ->toArray();
+
+            $MFItens = array_count_values($item);
+            arsort($MFItens);
+            $MFI = array_key_first($MFItens);
+
+            $itemMaisFrequente = DB::table('itens')
+                ->select('nome')
+                ->where('id', $MFI)
+                ->get();
+            function array_avg($item, $round = 1)
+            {
+                $num = count($item);
+                return array_map(
+                    function ($val) use ($num, $round) {
+                        return array('count' => $val, 'avg' => round($val / $num * 100, $round));
+                    },
+                    array_count_values($item)
+                );
+            }
+            $avgs = array_avg($item);
+            return response()->json([
+                'success' => true,
+                'ItemMaisFrequente' => $itemMaisFrequente,
+                'teste' => $avgs
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'mensagem' => 'erro no servidor',
+                'Error' => $e
+            ], 400);
+        }
+    }
+
     /**
      * Remove the specified resource from storage.
      */

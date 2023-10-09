@@ -21,10 +21,14 @@ class controlaTipo_quarto extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreTipo_quartoRequest $request)
+    public function store(Request $request)
     {
         try {
-            tipo_quarto::create($request->validated());
+            $tipo = $request->tipo;
+
+            tipo_quarto::create([
+                "tipo" => $tipo,
+            ]);
             return response()->json(["success" => true, "mensagem" => 'Tipo de acomodação registrada'], 200);
         } catch (Exception $e) {
             return response()->json(["success" => false, "error" => $e], 400);
@@ -60,13 +64,13 @@ class controlaTipo_quarto extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    // public function destroy(tipo_quarto $tipo_quarto)
-    // {
-    //     try {
-    //         $tipo_quarto->delete();
-    //         return response()->json("Usuário deletado com sucesso!");
-    //     } catch (Exception $e) {
-    //         return response()->json(["sucess" => false, "mensagem" => "Usuário não encontrado", "error" => $e], 400);
-    //     }
-    // }
+    public function destroy(tipo_quarto $tipo_quarto)
+    {
+        try {
+            $tipo_quarto->delete();
+            return response()->json("Usuário deletado com sucesso!");
+        } catch (Exception $e) {
+            return response()->json(["sucess" => false, "mensagem" => "Usuário não encontrado", "error" => $e], 400);
+        }
+    }
 }

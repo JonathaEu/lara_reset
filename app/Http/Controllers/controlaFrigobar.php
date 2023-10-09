@@ -21,13 +21,21 @@ class controlaFrigobar extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(frigobarRequest $request)
+    public function store(Request $request)
     {
         try {
-            frigobar::create($request->validated());
-            return response()->json(["success" => true, "mensagem" => 'Frigobar Registrado Com Sucesso'], 200);
+            $quartos_id = $request->quartos_id;
+            $ativo = $request->atvo;
+            $numero = $request->numero;
+
+            frigobar::create([
+                "quartos_id" => $quartos_id,
+                "numero" => $numero,
+                "ativo" => $ativo,
+            ]);
+            return response()->json(["success" => true, "mensagem" => 'Frigobar registrado'], 200);
         } catch (Exception $e) {
-            return response()->json(["success" => false, "error" => $e], 400);
+            return response()->json(["success" => false, "mensagem" => "Erro no servidor", "error" => $e], 400);
         }
     }
 

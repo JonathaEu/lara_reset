@@ -15,17 +15,30 @@ class controlaUser extends Controller
      */
     public function index()
     {
-        return  userResource::collection(user::all());
+        return userResource::collection(user::all());
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public  function store(StoreUserRequest  $request)
+    public function store(Request $request)
     {
         try {
-            user::create($request->validated());
-            return response()->json(["success" => true, "mensagem" => 'cliente registrado'], 200);
+            $name = $request->name;
+            $cpf = $request->cpf;
+            $email = $request->email;
+            $password = $request->password;
+            $telefone = $request->telefone;
+
+            user::create([
+                "name" => $name,
+                "cpf" => $cpf,
+                "email" => $email,
+                "password" => $password,
+                "telefone" => $telefone,
+            ]);
+
+            return response()->json(["success" => true, "mensagem" => 'Usuário registrado'], 200);
         } catch (Exception $e) {
             return response()->json(["success" => false, "error" => $e], 400);
         }
@@ -34,7 +47,7 @@ class controlaUser extends Controller
     /**
      * Display the specified resource.
      */
-    public  function show(user  $user)
+    public function show(user $user)
     {
         try {
             return new userResource($user);
@@ -46,7 +59,7 @@ class controlaUser extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public  function Update(StoreUserRequest  $request, user $user)
+    public function Update(StoreUserRequest $request, user $user)
     {
         try {
             $user->update($request->validated());

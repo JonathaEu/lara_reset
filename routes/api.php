@@ -57,6 +57,7 @@ Route::middleware(['api'])->group(function () {
 
     Route::post('/showConsumo', [controlaConsumo::class, 'show']);
     Route::post('/pagamento', [controlaReserva::class, 'pagamento']);
+    Route::get('/item-mais-frequente', [controlaConsumo::class, 'mostFrequentlyItem']);
 
     Route::get('/reserva_rel', function () {
 
@@ -68,15 +69,6 @@ Route::middleware(['api'])->group(function () {
             ->get();
 
         return response()->json(['data' => $reservas], 200);
-
-        // return response()->json([
-        //     [
-        //         'reserva_quartos' => $rel_quartos,
-        //         'reserva_clientes' => $rel_clientes,
-        //         'reserva_consumos' => $rel_consumos,
-        //         'reserva_funcionarios' => $rel_funcionarios,
-        //     ]
-        // ]);
     });
     Route::post('/armazenamento', [controlaFrigobar_itens::class, 'estoque']);
     Route::put('/check-in/{id}', [controlaReserva::class, 'checkIn']);

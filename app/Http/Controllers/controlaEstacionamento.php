@@ -15,19 +15,23 @@ class controlaEstacionamento extends Controller
      */
     public function index()
     {
-        return  estacionamentoResource::collection(estacionamento::all());
+        return estacionamentoResource::collection(estacionamento::all());
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreEstacionamentoRequest $request)
+    public function store(Request $request)
     {
         try {
-            estacionamento::create($request->validated());
-            return response()->json(["success" => true, "mensagem" => 'Item Registrado Com Sucesso'], 200);
+            $quartos_id = $request->quartos_id;
+
+            estacionamento::create([
+                "quartos_id" => $quartos_id,
+            ]);
+            return response()->json(["success" => true, "mensagem" => 'Vaga do estacionamento registrada'], 200);
         } catch (Exception $e) {
-            return response()->json(["success" => false, "error" => $e], 400);
+            return response()->json(["success" => false, "mensagem" => "Erro no servidor", "error" => $e], 400);
         }
     }
     /**
