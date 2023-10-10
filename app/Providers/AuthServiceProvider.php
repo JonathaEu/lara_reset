@@ -3,7 +3,12 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+use App\Models\iten;
+use App\Models\reserva;
+use App\Policies\ItenPolicy;
+use App\Policies\ReservaPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Tymon\JWTAuth\Facades\JWTProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -13,7 +18,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        //
+        iten::class => ItenPolicy::class,
+        reserva::class => ReservaPolicy::class,
     ];
 
     /**
@@ -21,6 +27,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        JWTProvider::class;
     }
 }

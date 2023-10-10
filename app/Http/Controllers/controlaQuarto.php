@@ -88,18 +88,26 @@ class controlaQuarto extends Controller
                 ->pluck('quartos_id')
                 ->toArray();
 
-            $MFRcount = array_count_values($quartos);
-            arsort($MFRcount);
-
-            $MFR = (array_key_first($MFRcount));
-
+            $contaQuartos = array_count_values($quartos);
+            arsort($contaQuartos);
+            $quartos_ids = array_keys($contaQuartos);
+            // $MFR = (array_key_first($contaQuartos));
             $quartoMaisFrequente = DB::table('quartos')
                 ->select('nome')
-                ->where('id', $MFRcount)
-                ->get();
+                ->whereIn('id', $quartos_ids)
+                ->get()
+                ->toArray();
+            $num = count($quartos);
+            $porcentagens = [];
+            foreach ($contaQuartos as $quartoFrequente) {
+                $avgs = $quartoFrequente / $num * 100;
+                $avgs = round($avgs, 2);
+                array_push($porcentagens, $avgs);
+            }
             return response()->json([
                 'success' => true,
-                'quartoMaisFrequente' => $quartoMaisFrequente
+                'quartoMaisFrequente' => $quartoMaisFrequente,
+                'porcentagens' => $porcentagens
             ], 200);
             // $MVR = max($MFR);
         } catch (Exception $e) {

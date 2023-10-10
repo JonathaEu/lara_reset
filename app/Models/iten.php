@@ -13,7 +13,7 @@ class iten extends Model
     protected $fillable = [
         'nome',
         'valor',
-        'quantidade',
+        'estoque',
     ];
 
     public function frigobar(): BelongsToMany

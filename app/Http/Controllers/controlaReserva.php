@@ -229,18 +229,42 @@ class controlaReserva extends Controller
      * Update the specified resource in storage.
      */
 
-    public function Update(StoreReservaRequest $request, reserva $reserva)
+    public function Update(Request $request, $id)
     {
         try {
-            $reserva->update($request->validated());
-            return response()->json(["success" => true, "mensagem" => 'Registro atualizado com sucesso'], 200);
+            $clientes_id = $request->clientes_id;
+            $quartos_id = $request->quartos_id;
+            $users_id = $request->users_id;
+            $status = $request->status;
+            $dt_inicial = $request->dt_inicial;
+            $dt_final = $request->dt_final;
+            $check_in = $request->check_in;
+            $check_out = $request->check_out;
+
+            $reserva = DB::table('reservas')
+                ->where('id', $id);
+            $reserva->update([
+                "clientes_id" => $clientes_id,
+                "quartos_id" => $quartos_id,
+                "users_id" => $users_id,
+                "status" => $status,
+                "dt_inicial" => $dt_inicial,
+                "dt_final" => $dt_final,
+                "check_in" => $check_in,
+                "check_out" => $check_out,
+            ]);
+            return response()->json([
+                "success" => true,
+                "mensagem" => 'Registro atualizado com sucesso'
+            ], 200);
         } catch (Exception $e) {
-            return response()->json(["success" => false, "error" => $e], 400);
+            return response()->json([
+                "success" => false,
+                "Mensagem" => "erro no servidor",
+                "error" => $e
+            ], 400);
         }
     }
-
-
-    // public function CheckOut()
 
     /**
      * Remove the specified resource from storage.

@@ -7,6 +7,7 @@ use App\Http\Resources\itensResource;
 use App\Models\iten;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class controlaItens extends Controller
 {
@@ -53,10 +54,20 @@ class controlaItens extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function Update(StoreitemRequest $request, iten $iten)
+    public function Update(Request $request, $id)
     {
         try {
-            $iten->update($request->validated());
+            $nome = $request->nome;
+            $valor = $request->valor;
+            $estoque = $request->estoque;
+
+            $item = DB::table('itens')
+                ->where('id', $id);
+            $item->update([
+                "nome" => $nome,
+                "valor" => $valor,
+                "estoque" => $estoque,
+            ]);
             return response()->json(["success" => true, "mensagem" => 'Registro atualizado com sucesso'], 200);
         } catch (Exception $e) {
             return response()->json(["success" => false, "error" => $e], 400);

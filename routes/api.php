@@ -58,6 +58,8 @@ Route::middleware(['api'])->group(function () {
     Route::post('/showConsumo', [controlaConsumo::class, 'show']);
     Route::post('/pagamento', [controlaReserva::class, 'pagamento']);
     Route::get('/item-mais-frequente', [controlaConsumo::class, 'mostFrequentlyItem']);
+    Route::get('/MVR', [controlaQuarto::class, 'MostValuableRoom']);
+
 
     Route::get('/reserva_rel', function () {
 
@@ -80,8 +82,6 @@ Route::middleware(['api'])->group(function () {
         return
             $estacionamento;
     });
-
-    Route::get('/MVR', [controlaQuarto::class, 'MostValuableRoom']);
 
     // Route::post('/deleteManyItens', [controlaFrigobar_itens::class, 'destroy']);
 });

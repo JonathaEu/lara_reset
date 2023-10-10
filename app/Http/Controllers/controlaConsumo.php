@@ -139,27 +139,25 @@ class controlaConsumo extends Controller
 
             $MFItens = array_count_values($item);
             arsort($MFItens);
-            $MFI = array_key_first($MFItens);
-
-            $itemMaisFrequente = DB::table('itens')
+            $itens_ids = array_keys($MFItens);
+            // $MFI = array_key_first($MFItens);
+            $itemMaisFrequentes = DB::table('itens')
                 ->select('nome')
-                ->where('id', $MFI)
-                ->get();
-            function array_avg($item, $round = 1)
-            {
-                $num = count($item);
-                return array_map(
-                    function ($val) use ($num, $round) {
-                        return array('count' => $val, 'avg' => round($val / $num * 100, $round));
-                    },
-                    array_count_values($item)
-                );
+                ->whereIn('id', $itens_ids)
+                ->get()
+                ->toArray();
+            $num = count($item);
+            $porcentagens = [];
+            foreach ($MFItens as $mf) {
+                $avgs = $mf / $num * 100;
+                $avgs = round($avgs, 2);
+                array_push($porcentagens, $avgs);
             }
-            $avgs = array_avg($item);
+            // array_push($itemMaisFrequentes, $porcentagens);
             return response()->json([
                 'success' => true,
-                'ItemMaisFrequente' => $itemMaisFrequente,
-                'teste' => $avgs
+                'ItemMaisFrequente' => $itemMaisFrequentes,
+                'porcentagens' => $porcentagens
             ], 200);
         } catch (Exception $e) {
             return response()->json([
