@@ -51,10 +51,16 @@ class controlaTipo_quarto extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreTipo_quartoRequest $request, tipo_quarto $tipo_quarto)
+    public function update(Request $request, $id)
     {
         try {
-            $tipo_quarto->update($request->validated());
+            $tipo = $request->tipo;
+            $tipo_quarto = DB::table('tipo_quarto')
+                ->where('id', $id);
+
+            $tipo_quarto->update([
+                "tipo" => $tipo,
+            ]);
             return response()->json(["success" => true, "mensagem" => 'Registro atualizado com sucesso'], 200);
         } catch (Exception $e) {
             return response()->json(["success" => false, "error" => $e], 400);

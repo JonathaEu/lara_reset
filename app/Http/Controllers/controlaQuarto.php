@@ -70,10 +70,26 @@ class controlaQuarto extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreQuartoRequest $request, quarto $quarto)
+    public function update(Request $request, $id)
     {
         try {
-            $quarto->update($request->validated());
+            $nome = $request->nome;
+            $numero = $request->numero;
+            $valor = $request->valor;
+            $max_cap = $request->max_cap;
+            $tipo_quartos_id = $request->tipo_quartos_id;
+
+            $quarto = DB::table('quartos')
+                ->where('id', $id);
+
+            $quarto->update([
+                'nome' => $nome,
+                'numero' => $numero,
+                'valor' => $valor,
+                'max_cap' => $max_cap,
+                'tipo_quartos_id' => $tipo_quartos_id,
+            ]);
+
             return response()->json(["success" => true, "mensagem" => 'Registro atualizado com sucesso'], 200);
         } catch (Exception $e) {
             return response()->json(["success" => false, "error" => $e], 400);

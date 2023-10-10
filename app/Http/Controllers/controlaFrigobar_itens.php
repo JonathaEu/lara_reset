@@ -34,7 +34,6 @@ class controlaFrigobar_itens extends Controller
         $success = 0;
         $error = 0;
 
-
         try {
             $itenFrigobar = frigobar_iten::where('frigobar_id', $frigobar)
                 ->where('iten_id', $itens)
@@ -97,10 +96,20 @@ class controlaFrigobar_itens extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(frigobar_itensRequest $request, frigobar_iten $frigobar_iten)
+    public function update(Request $request, $id)
     {
         try {
-            $frigobar_iten->update($request->validated());
+            $frigobar = $request->frigobar_id;
+            $itens = $request->iten_id;
+            $quantidade = $request->quantidade;
+
+            $itenFrigobar = DB::table('frigobar_iten')
+                ->where('id', $id);
+            $itenFrigobar->update([
+                'frigobar_id' => $frigobar,
+                'itens' => $itens,
+                'quantidade' => $quantidade,
+            ]);
             return response()->json(["success" => true, "mensagem" => 'Registro atualizado com sucesso'], 200);
         } catch (Exception $e) {
             return response()->json(["success" => false, "error" => $e], 400);

@@ -7,6 +7,7 @@ use App\Http\Resources\frigobarResource;
 use App\Models\frigobar;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class controlaFrigobar extends Controller
 {
@@ -59,10 +60,20 @@ class controlaFrigobar extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(frigobarRequest $request, frigobar $frigobar)
+    public function update(Request $request, $id)
     {
         try {
-            $frigobar->update($request->validated());
+            $quartos_id = $request->quartos_id;
+            $ativo = $request->atvo;
+            $numero = $request->numero;
+
+            $frigobar = DB::table('frigobar')
+                ->where('id', $id);
+            $frigobar->update([
+                "quartos_id" => $quartos_id,
+                "numero" => $numero,
+                "ativo" => $ativo,
+            ]);
             return response()->json(["success" => true, "mensagem" => 'Registro atualizado com sucesso'], 200);
         } catch (Exception $e) {
             return response()->json(["success" => false, "error" => $e], 400);

@@ -120,13 +120,35 @@ class controlaConsumo extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreconsumoRequest $request, consumo $consumo)
+    public function update(Request $request, $id)
     {
         try {
-            $consumo->update($request->validated());
-            return response()->json(["success" => true, "mensagem" => 'Registro atualizado com sucesso'], 200);
+            $itens = $request->itens_id;
+            $frigobar = $request->frigobar_id;
+            $valor_total = $request->valor_total;
+            $reservas_id = $request->reservas_id;
+            $quantidade = $request->quantidade;
+            $msg = '';
+
+            $consumo = consumo::where('id', $id);
+
+            $consumo->update([
+                'iten_id' => $itens,
+                'frigobar_id' => $frigobar,
+                'reservas_id' => $reservas_id,
+                'quantidade' => $quantidade,
+                'valor_total' => $valor_total
+            ]);
+            return response()->json([
+                "success" => true,
+                "mensagem" => 'Registro atualizado com sucesso'
+            ], 200);
         } catch (Exception $e) {
-            return response()->json(["success" => false, "error" => $e], 400);
+            return response()->json([
+                "success" => false,
+                "mensagem" => "erro no servidor",
+                "error" => $e
+            ], 400);
         }
     }
 

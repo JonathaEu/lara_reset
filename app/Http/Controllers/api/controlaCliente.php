@@ -19,19 +19,67 @@ class controlaCliente extends Controller
     public function store(StoreClienteRequest $request)
     {
         try {
-            cliente::create($request->validated());
-            return response()->json(["success" => true, "mensagem" => 'cliente registrado'], 200);
+            $nome = $request->nome;
+            $cpf = $request->cpf;
+            $email = $request->email;
+            $nascimento = $request->nascimento;
+            $telefone = $request->telefone;
+            $cidade = $request->cidade;
+            $estado = $request->estado;
+
+            cliente::create([
+                'nome' => $nome,
+                'cpf' => $cpf,
+                'email' => $email,
+                'nascimento' => $nascimento,
+                'telefone' => $telefone,
+                'cidade' => $cidade,
+                'estado' => $estado,
+            ]);
+
+            return response()->json([
+                "success" => true,
+                "mensagem" => 'cliente registrado'
+            ], 200);
         } catch (Exception $e) {
-            return response()->json(["success" => false, "error" => $e], 400);
+            return response()->json([
+                "success" => false,
+                "mensagem" => "erro no servidor",
+                "error" => $e
+            ], 400);
         }
     }
-    public function Update(StoreClienteRequest $request, cliente $cliente)
+    public function Update(Request $request, $id)
     {
         try {
-            $cliente->update($request->validated());
-            return response()->json(["success" => true, "mensagem" => 'Registro atualizado com sucesso'], 200);
+            $nome = $request->nome;
+            $cpf = $request->cpf;
+            $email = $request->email;
+            $nascimento = $request->nascimento;
+            $telefone = $request->telefone;
+            $cidade = $request->cidade;
+            $estado = $request->estado;
+
+            $cliente = cliente::where('id', $id);
+            $cliente->update([
+                'nome' => $nome,
+                'cpf' => $cpf,
+                'email' => $email,
+                'nascimento' => $nascimento,
+                'telefone' => $telefone,
+                'cidade' => $cidade,
+                'estado' => $estado,
+            ]);
+            return response()->json([
+                "success" => true,
+                "mensagem" => 'Registro atualizado com sucesso'
+            ], 200);
         } catch (Exception $e) {
-            return response()->json(["success" => false, "error" => $e], 400);
+            return response()->json([
+                "success" => false,
+                "mensagem" => "Erro no servidor",
+                "error" => $e
+            ], 400);
         }
     }
     public function show($id)

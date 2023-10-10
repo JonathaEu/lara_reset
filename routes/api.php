@@ -58,7 +58,7 @@ Route::middleware(['api'])->group(function () {
     Route::post('/showConsumo', [controlaConsumo::class, 'show']);
     Route::post('/pagamento', [controlaReserva::class, 'pagamento']);
     Route::get('/item-mais-frequente', [controlaConsumo::class, 'mostFrequentlyItem']);
-    Route::get('/MVR', [controlaQuarto::class, 'MostValuableRoom']);
+    Route::get('/quarto-mais-frequente', [controlaQuarto::class, 'MostValuableRoom']);
 
 
     Route::get('/reserva_rel', function () {

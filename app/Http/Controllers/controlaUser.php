@@ -7,6 +7,7 @@ use App\Http\Resources\userResource;
 use App\Models\user;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class controlaUser extends Controller
 {
@@ -59,10 +60,25 @@ class controlaUser extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function Update(StoreUserRequest $request, user $user)
+    public function Update(Request $request, $id)
     {
         try {
-            $user->update($request->validated());
+            $name = $request->name;
+            $cpf = $request->cpf;
+            $email = $request->email;
+            $password = $request->password;
+            $telefone = $request->telefone;
+
+            $user = DB::table('users')
+                ->where('id', $id);
+
+            $user->update([
+                "name" => $name,
+                "cpf" => $cpf,
+                "email" => $email,
+                "password" => $password,
+                "telefone" => $telefone,
+            ]);
             return response()->json(["success" => true, "mensagem" => 'Registro atualizado com sucesso'], 200);
         } catch (Exception $e) {
             return response()->json(["success" => false, "error" => $e], 400);
