@@ -200,7 +200,6 @@ class controlaReserva extends Controller
                     'consumo.created_at',
                 )
                 ->get();
-
             $valor_total = consumo::where('reservas_id', $reserva)
                 ->pluck('valor_total')
                 ->toArray();
@@ -219,7 +218,8 @@ class controlaReserva extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'Success' => false,
-                'mensagem' => 'Deu ruim'
+                'mensagem' => 'Deu ruim',
+                'Error' => $e
             ], 400);
         }
 

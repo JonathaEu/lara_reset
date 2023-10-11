@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\api\controlaCliente;
 use App\Http\Controllers\controlaFrigobar_itens;
+use App\Http\Controllers\PagamentoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Autenticar;
@@ -56,7 +57,7 @@ Route::middleware(['api'])->group(function () {
     });
 
     Route::post('/showConsumo', [controlaConsumo::class, 'show']);
-    Route::post('/pagamento', [controlaReserva::class, 'pagamento']);
+    Route::post('/pendencias', [PagamentoController::class, 'Pendencias']);
     Route::get('/item-mais-frequente', [controlaConsumo::class, 'mostFrequentlyItem']);
     Route::get('/quarto-mais-frequente', [controlaQuarto::class, 'MostValuableRoom']);
 
