@@ -35,6 +35,7 @@ class controlaFrigobar_itens extends Controller
         $error = 0;
 
         try {
+            $tabelaItens = iten::where('id', $itens);
             $itenFrigobar = frigobar_iten::where('frigobar_id', $frigobar)
                 ->where('iten_id', $itens)
                 ->select('quantidade');
@@ -47,6 +48,14 @@ class controlaFrigobar_itens extends Controller
                     "quantidade" => $novaQuantidade
                 ]);
                 $msg = 'Item(S) adicionado(s) com sucesso';
+
+                $estoque = DB::table('itens')
+                    ->where('id', $itens)
+                    ->pluck('estoque');
+                $newEstoque = $estoque[0] - $quantidade;
+                $tabelaItens->Update([
+                    "estoque" => $newEstoque
+                ]);
             } else {
                 $itenFrigobar = new frigobar_iten;
                 $itenFrigobar->iten_id = $itens;
@@ -54,12 +63,14 @@ class controlaFrigobar_itens extends Controller
                 $itenFrigobar->quantidade = $quantidade;
                 $itenFrigobar->save();
 
-                // frigobar_iten::create([
-                //     'frigobar_id' => $frigobar,
-                //     'iten_id' => $itens,
-                //     'quantidade' => $quantidade
-                // ]);
+                $estoque = DB::table('itens')
+                    ->where('id', $itens)
+                    ->pluck('estoque');
 
+                $newEstoque = $estoque[0] - $quantidade;
+                $tabelaItens->Update([
+                    "estoque" => $newEstoque
+                ]);
                 $msg = 'Item(S) cadastrado(s) com sucesso';
             }
 
