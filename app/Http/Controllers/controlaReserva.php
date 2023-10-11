@@ -183,47 +183,7 @@ class controlaReserva extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function Pagamento(Request $request)
-    {
-        try {
-            $cliente = $request->clientes_id;
-            $reserva = reserva::where('clientes_id', $cliente)
-                ->pluck('id');
 
-            $consumo = consumo::where('reservas_id', $reserva)
-                ->join('itens', 'itens.id', '=', 'consumo.iten_id')
-                ->select(
-                    'itens.nome',
-                    'consumo.iten_id',
-                    'consumo.quantidade',
-                    'consumo.valor_total',
-                    'consumo.created_at',
-                )
-                ->get();
-            $valor_total = consumo::where('reservas_id', $reserva)
-                ->pluck('valor_total')
-                ->toArray();
-
-            $vt = array_sum($valor_total);
-            // foreach ($valor_total as $vt) {
-            //     $vt++;
-            // }
-
-            return response()->json([
-                'reserva_id' => $reserva,
-                'consumo' => $consumo,
-                'valor_total' => $valor_total,
-                'vt' => $vt
-            ], 200);
-        } catch (Exception $e) {
-            return response()->json([
-                'Success' => false,
-                'mensagem' => 'Deu ruim',
-                'Error' => $e
-            ], 400);
-        }
-
-    }
 
     /**
      * Update the specified resource in storage.
