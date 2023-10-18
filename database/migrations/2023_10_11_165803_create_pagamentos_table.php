@@ -13,6 +13,8 @@ return new class extends Migration {
         Schema::create('pagamentos', function (Blueprint $table) {
             $table->id();
             $table->float('valor');
+            $table->string('metodo');
+            $table->integer('parcelas');
             $table->foreignId('reservas_id')->constrained();
             $table->timestamps();
         });

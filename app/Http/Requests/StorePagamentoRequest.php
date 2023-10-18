@@ -24,6 +24,8 @@ class StorePagamentoRequest extends FormRequest
         return [
             'valor' => ['required'],
             'reservas_id' => ['required'],
+            'metodo' => ['required'],
+            'parcelas' => ['required'],
         ];
     }
 }

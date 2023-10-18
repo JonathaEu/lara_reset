@@ -32,7 +32,7 @@ use Illuminate\Support\Facades\DB;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-Route::middleware(['api'])->group(function () {
+Route::middleware(['apiJWT'])->group(function () {
     // dd(mid);
     Route::apiResource('cliente', controlaCliente::class);
     Route::apiResource('quarto', controlaQuarto::class);
@@ -42,6 +42,7 @@ Route::middleware(['api'])->group(function () {
     Route::apiResource('estacionamento', controlaEstacionamento::class);
     Route::apiResource('frigobar_itens', controlaFrigobar_itens::class);
     Route::apiResource('itens', controlaItens::class);
+    Route::apiResource('pagamento', PagamentoController::class);
     Route::apiResource('frigobar', controlaFrigobar::class);
     // Route::middleware('api')->get('/user', function (Request $request) {
     //     return $request->user();
@@ -56,6 +57,7 @@ Route::middleware(['api'])->group(function () {
             $frigobar;
     });
 
+    Route::get('/cliente-list', [controlaCliente::class, 'client_list']);
     Route::post('/showConsumo', [controlaConsumo::class, 'show']);
     Route::post('/pendencias', [PagamentoController::class, 'Pendencias']);
     Route::get('/item-mais-frequente', [controlaConsumo::class, 'mostFrequentlyItem']);
@@ -63,8 +65,6 @@ Route::middleware(['api'])->group(function () {
 
 
     Route::get('/reserva_rel', function () {
-
-        // $quartos_id = frigobar->quartos_id;
         $reservas = reserva::with('quartos')
             ->with('consumos')
             ->with('clientes')

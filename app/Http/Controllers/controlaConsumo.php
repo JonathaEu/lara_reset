@@ -86,7 +86,12 @@ class controlaConsumo extends Controller
     {
 
         try {
-            $reserva = $request->reservas_id;
+            $cliente_id = $request->clientes_id;
+            $reserva_id = DB::table('reservas')
+                ->where('clientes_id', $cliente_id)
+                ->where('status', "iniciado")
+                ->pluck('id');
+            // ->get();
             $reserva_consumo = DB::table('consumo')
                 ->select(
                     'itens.nome',
@@ -95,7 +100,7 @@ class controlaConsumo extends Controller
                     'consumo.created_at',
                 )
                 ->join('itens', 'itens.id', '=', 'consumo.iten_id')
-                ->where('reservas_id', $reserva)
+                ->where('reservas_id', $reserva_id)
                 ->groupBy(
                     'itens.nome',
                     'consumo.quantidade',
@@ -113,7 +118,11 @@ class controlaConsumo extends Controller
             ], 200);
 
         } catch (Exception $e) {
-            return response()->json(["success" => false, "error" => $e], 400);
+            return response()->json([
+                "success" => false,
+                "mensagem" => "Erro no servidor",
+                "error" => $e
+            ], 400);
         }
     }
 
@@ -164,10 +173,8 @@ class controlaConsumo extends Controller
             $itens_ids = array_keys($MFItens);
             // $MFI = array_key_first($MFItens);
             $itemMaisFrequentes = DB::table('itens')
-                ->select('nome')
                 ->whereIn('id', $itens_ids)
-                ->get()
-                ->toArray();
+                ->pluck('nome');
             $num = count($item);
             $porcentagens = [];
             foreach ($MFItens as $mf) {

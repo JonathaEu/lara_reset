@@ -109,10 +109,9 @@ class controlaQuarto extends Controller
             $quartos_ids = array_keys($contaQuartos);
             // $MFR = (array_key_first($contaQuartos));
             $quartoMaisFrequente = DB::table('quartos')
-                ->select('nome')
                 ->whereIn('id', $quartos_ids)
-                ->get()
-                ->toArray();
+                ->pluck('nome');
+
             $num = count($quartos);
             $porcentagens = [];
             foreach ($contaQuartos as $quartoFrequente) {

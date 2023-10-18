@@ -6,9 +6,11 @@ use App\Models\consumo;
 use App\Models\Pagamento;
 use App\Http\Requests\StorePagamentoRequest;
 use App\Http\Requests\UpdatePagamentoRequest;
+use App\Models\quarto;
 use App\Models\reserva;
 use Exception;
 use Illuminate\Http\Request;
+use PHPUnit\Framework\Constraint\IsEmpty;
 
 class PagamentoController extends Controller
 {
@@ -31,14 +33,18 @@ class PagamentoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePagamentoRequest $request)
+    public function store(Request $request)
     {
         try {
             $valor = $request->valor;
+            $metodo = $request->metodo;
+            $parcelas = $request->parcelas;
             $reservas_id = $request->reservas_id;
 
             Pagamento::create([
                 'valor' => $valor,
+                'metodo' => $metodo,
+                'parcelas' => $parcelas,
                 'reservas_id' => $reservas_id,
             ]);
 
@@ -84,33 +90,40 @@ class PagamentoController extends Controller
             $reserva = reserva::where('clientes_id', $cliente)
                 ->pluck('id');
 
-            $consumo = consumo::where('reservas_id', $reserva)
-                ->join('itens', 'itens.id', '=', 'consumo.iten_id')
-                ->select(
-                    'itens.nome',
-                    'consumo.iten_id',
-                    'consumo.quantidade',
-                    'consumo.valor_total',
-                    'consumo.created_at',
-                )
-                ->get();
-            $vt = consumo::where('reservas_id', $reserva)
+            $consumo_count = consumo::where('reservas_id', $reserva)
                 ->pluck('valor_total')
                 ->toArray();
 
-            $valor_total = array_sum($vt);
-            // foreach ($valor_total as $vt) {
-            //     $vt++;
-            // }
+            $valor_consumo = array_sum($consumo_count);
+
+            $quarto_id = reserva::where('id', $reserva)
+                ->pluck('quartos_id');
+
+            $valor_quarto = quarto::where('id', $quarto_id)
+                ->pluck('valor');
+
+            $valor_pagamento = pagamento::where('reservas_id', $reserva)
+                ->pluck('valor');
+
+            if ($valor_pagamento->IsEmpty()) {
+                $valor_pagamento = 0;
+            } else {
+                $valor_pagamento = 1;
+            }
+
+            $valor_total = $valor_quarto[0] + $valor_consumo;
 
             return response()->json([
                 // 'reserva_id' => $reserva,
-                'valor_total' => $valor_total,
+                'pendencia' => $valor_total,
+                'pagou_bool' => $valor_pagamento,
+                'reservas_id' => $reserva,
             ], 200);
+
         } catch (Exception $e) {
             return response()->json([
                 'Success' => false,
-                'mensagem' => 'Deu ruim',
+                'mensagem' => 'Erro no servidor',
                 'Error' => $e
             ], 400);
         }
@@ -131,11 +144,15 @@ class PagamentoController extends Controller
     {
         try {
             $valor = $request->valor;
+            $metodo = $request->metodo;
+            $parcelas = $request->parcelas;
             $reservas_id = $request->reservas_id;
 
             $Pagamento = Pagamento::where('id', $id);
             $Pagamento->update([
                 'valor' => $valor,
+                'metodo' => $metodo,
+                'parcelas' => $parcelas,
                 'reservas_id' => $reservas_id,
             ]);
 

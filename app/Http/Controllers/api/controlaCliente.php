@@ -8,6 +8,7 @@ use App\Http\Resources\clienteResource;
 use App\Models\cliente;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class controlaCliente extends Controller
 {
@@ -98,6 +99,38 @@ class controlaCliente extends Controller
             return response()->json([
                 "success" => false,
                 "error" => $e
+            ], 400);
+        }
+    }
+
+    public function client_list()
+    {
+        try {
+            $clientes = DB::table('clientes')
+                ->select(
+                    'id',
+                    'nome'
+                )
+                ->get()
+                ->toArray();
+
+            $listaClientes = [];
+            foreach ($clientes as $client) {
+
+                $listaClientes[] = [
+                    "label" => $client->nome,
+                    "value" => $client->id
+                ];
+            }
+            return response()->json([
+                'success' => true,
+                'listaClientes' => $listaClientes
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'mensagem' => 'Erro no servidor',
+                'error' => $e,
             ], 400);
         }
     }

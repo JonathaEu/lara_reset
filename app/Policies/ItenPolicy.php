@@ -37,7 +37,7 @@ class ItenPolicy
      */
     public function update(User $user, iten $iten): Response
     {
-        return $user->id === $iten->user_id
+        return $user->id === 1
             ? Response::allow()
             : Response::deny('Sem acesso');
 

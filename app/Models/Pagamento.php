@@ -11,6 +11,8 @@ class Pagamento extends Model
 
     protected $fillable = [
         'valor',
-        'reservas_id'
+        'reservas_id',
+        'metodo',
+        'parcelas',
     ];
 }
