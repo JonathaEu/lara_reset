@@ -3,6 +3,7 @@
 use App\Http\Controllers\api\controlaCliente;
 use App\Http\Controllers\controlaFrigobar_itens;
 use App\Http\Controllers\PagamentoController;
+use App\Http\Controllers\RelatorioController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Autenticar;
@@ -32,7 +33,7 @@ use Illuminate\Support\Facades\DB;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-Route::middleware(['apiJWT'])->group(function () {
+Route::middleware(['api'])->group(function () {
     // dd(mid);
     Route::apiResource('cliente', controlaCliente::class);
     Route::apiResource('quarto', controlaQuarto::class);
@@ -62,6 +63,7 @@ Route::middleware(['apiJWT'])->group(function () {
     Route::post('/pendencias', [PagamentoController::class, 'Pendencias']);
     Route::get('/item-mais-frequente', [controlaConsumo::class, 'mostFrequentlyItem']);
     Route::get('/quarto-mais-frequente', [controlaQuarto::class, 'MostValuableRoom']);
+    Route::get('/teste', [RelatorioController::class, 'saidaQuartoItensPorMes']);
 
 
     Route::get('/reserva_rel', function () {
