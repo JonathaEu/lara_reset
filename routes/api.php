@@ -63,7 +63,7 @@ Route::middleware(['api'])->group(function () {
     Route::post('/pendencias', [PagamentoController::class, 'Pendencias']);
     Route::get('/item-mais-frequente', [controlaConsumo::class, 'mostFrequentlyItem']);
     Route::get('/quarto-mais-frequente', [controlaQuarto::class, 'MostValuableRoom']);
-    Route::get('/teste', [RelatorioController::class, 'saidaQuartoItensPorMes']);
+    Route::post('/receita-anual', [RelatorioController::class, 'saidaQuartoItensPorMes']);
 
 
     Route::get('/reserva_rel', function () {

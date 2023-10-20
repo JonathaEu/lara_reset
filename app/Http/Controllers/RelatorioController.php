@@ -11,75 +11,158 @@ class RelatorioController extends Controller
     public function saidaQuartoItensPorMes(Request $request)
     {
         try {
-            $labelMesConsumo = [];
-            $labelValorConsumo = [];
-            $labelMesQuarto = [];
-            $labelValorQuarto = [];
-            $consumo_mes = DB::table('consumo')
-                ->select(
-                    DB::raw("CASE 
-                     WHEN MONTH(created_at) = '01' THEN '01'
-                     WHEN MONTH(created_at) = '02' THEN '02'
-                     WHEN MONTH(created_at) = '03' THEN '03'
-                     WHEN MONTH(created_at) = '04' THEN '04'
-                     WHEN MONTH(created_at) = '05' THEN '05'
-                     WHEN MONTH(created_at) = '06' THEN '06'
-                     WHEN MONTH(created_at) = '07' THEN '07'
-                     WHEN MONTH(created_at) = '08' THEN '08'
-                     WHEN MONTH(created_at) = '09' THEN '09'
-                     WHEN MONTH(created_at) = '10' THEN '10'
-                     WHEN MONTH(created_at) = '11' THEN '11'
-                     ELSE 'Dezembro' END as mes"),
-                    DB::raw('SUM(valor_total) as valor'),
-                )
-                ->whereYear('created_at', '2023')
-                ->groupBy('mes')
-                ->orderBy('mes', 'asc')
-                ->get()
-                ->toArray();
+            $ano = $request->ano;
 
-            $quarto_mes = DB::table('reservas')
-                ->select(
-                    DB::raw("CASE 
-                        WHEN MONTH(check_in) = 1 THEN '01'
-                        WHEN MONTH(check_in) = 2 THEN '02'
-                        WHEN MONTH(check_in) = 3 THEN '03'
-                        WHEN MONTH(check_in) = 4 THEN '04'
-                        WHEN MONTH(check_in) = 5 THEN '05'
-                        WHEN MONTH(check_in) = 6 THEN '06'
-                        WHEN MONTH(check_in) = 7 THEN '07'
-                        WHEN MONTH(check_in) = 8 THEN '08'
-                        WHEN MONTH(check_in) = 9 THEN '09'
-                        WHEN MONTH(check_in) = 10 THEN '10'
-                        WHEN MONTH(check_in) = 11 THEN '11'
-                        ELSE 12 END as mes"),
-                    DB::raw('SUM(quartos.valor) as valor_total')
-                )
-                ->whereYear('reservas.created_at', '2023')
+            $con_jan = DB::table('consumo')
+                ->whereMonth('created_at', 1)
+                ->whereYear('created_at', $ano)
+                ->sum('valor_total');
+
+            $qrto_jan = DB::table('reservas')
+                ->whereMonth('reservas.created_at', 1)
+                ->whereYear('reservas.created_at', $ano)
                 ->join('quartos', 'quartos.id', '=', 'reservas.quartos_id')
-                ->where('status', 'finalizado')
-                ->groupBy('mes')
-                ->orderBy('mes', 'asc')
-                ->get()
-                ->toArray();
+                ->sum('quartos.valor');
 
-            foreach ($consumo_mes as $resultado) {
-                array_push($labelMesConsumo, $resultado->mes);
-                array_push($labelValorConsumo, number_format($resultado->valor, 2));
-            }
+            $con_fev = DB::table('consumo')
+                ->whereMonth('created_at', 2)
+                ->whereYear('created_at', $ano)
+                ->sum('valor_total');
 
-            foreach ($quarto_mes as $resultado_quarto) {
-                array_push($labelMesQuarto, $resultado_quarto->mes);
-                array_push($labelValorQuarto, number_format($resultado_quarto->valor_total, 2));
-            }
+            $qrto_fev = DB::table('reservas')
+                ->whereMonth('reservas.created_at', 2)
+                ->whereYear('reservas.created_at', $ano)
+                ->join('quartos', 'quartos.id', '=', 'reservas.quartos_id')
+                ->sum('quartos.valor');
+
+            $con_mar = DB::table('consumo')
+                ->whereMonth('created_at', 3)
+                ->whereYear('created_at', $ano)
+                ->sum('valor_total');
+
+            $qrto_mar = DB::table('reservas')
+                ->whereMonth('reservas.created_at', 3)
+                ->whereYear('reservas.created_at', $ano)
+                ->join('quartos', 'quartos.id', '=', 'reservas.quartos_id')
+                ->sum('quartos.valor');
+
+            $con_abr = DB::table('consumo')
+                ->whereMonth('created_at', 4)
+                ->whereYear('created_at', $ano)
+                ->sum('valor_total');
+
+            $qrto_abr = DB::table('reservas')
+                ->whereMonth('reservas.created_at', 4)
+                ->whereYear('reservas.created_at', $ano)
+                ->join('quartos', 'quartos.id', '=', 'reservas.quartos_id')
+                ->sum('quartos.valor');
+
+            $con_mai = DB::table('consumo')
+                ->whereMonth('created_at', 5)
+                ->whereYear('created_at', $ano)
+                ->sum('valor_total');
+
+            $qrto_mai = DB::table('reservas')
+                ->whereMonth('reservas.created_at', 5)
+                ->whereYear('reservas.created_at', $ano)
+                ->join('quartos', 'quartos.id', '=', 'reservas.quartos_id')
+                ->sum('quartos.valor');
+
+            $con_jun = DB::table('consumo')
+                ->whereMonth('created_at', 6)
+                ->whereYear('created_at', $ano)
+                ->sum('valor_total');
+
+            $qrto_jun = DB::table('reservas')
+                ->whereMonth('reservas.created_at', 6)
+                ->whereYear('reservas.created_at', $ano)
+                ->join('quartos', 'quartos.id', '=', 'reservas.quartos_id')
+                ->sum('quartos.valor');
+
+            $con_jul = DB::table('consumo')
+                ->whereMonth('created_at', 7)
+                ->whereYear('created_at', $ano)
+                ->sum('valor_total');
+
+            $qrto_jul = DB::table('reservas')
+                ->whereMonth('reservas.created_at', 7)
+                ->whereYear('reservas.created_at', $ano)
+                ->join('quartos', 'quartos.id', '=', 'reservas.quartos_id')
+                ->sum('quartos.valor');
+
+            $con_ago = DB::table('consumo')
+                ->whereMonth('created_at', 8)
+                ->whereYear('created_at', $ano)
+                ->sum('valor_total');
+
+            $qrto_ago = DB::table('reservas')
+                ->whereMonth('reservas.created_at', 8)
+                ->whereYear('reservas.created_at', $ano)
+                ->join('quartos', 'quartos.id', '=', 'reservas.quartos_id')
+                ->sum('quartos.valor');
+
+            $con_set = DB::table('consumo')
+                ->whereMonth('created_at', 9)
+                ->whereYear('created_at', $ano)
+                ->sum('valor_total');
+
+            $qrto_set = DB::table('reservas')
+                ->whereMonth('reservas.created_at', 9)
+                ->whereYear('reservas.created_at', $ano)
+                ->join('quartos', 'quartos.id', '=', 'reservas.quartos_id')
+                ->sum('quartos.valor');
+
+            $con_out = DB::table('consumo')
+                ->whereMonth('created_at', 10)
+                ->whereYear('created_at', $ano)
+                ->sum('valor_total');
+
+            $qrto_out = DB::table('reservas')
+                ->whereMonth('reservas.created_at', 10)
+                ->whereYear('reservas.created_at', $ano)
+                ->join('quartos', 'quartos.id', '=', 'reservas.quartos_id')
+                ->sum('quartos.valor');
+
+            $con_nov = DB::table('consumo')
+                ->whereMonth('created_at', 11)
+                ->whereYear('created_at', $ano)
+                ->sum('valor_total');
+
+            $qrto_nov = DB::table('reservas')
+                ->whereMonth('reservas.created_at', 11)
+                ->whereYear('reservas.created_at', $ano)
+                ->join('quartos', 'quartos.id', '=', 'reservas.quartos_id')
+                ->sum('quartos.valor');
+
+            $con_dez = DB::table('consumo')
+                ->whereMonth('created_at', 12)
+                ->whereYear('created_at', $ano)
+                ->sum('valor_total');
+
+            $qrto_dez = DB::table('reservas')
+                ->whereMonth('reservas.created_at', 12)
+                ->whereYear('reservas.created_at', $ano)
+                ->join('quartos', 'quartos.id', '=', 'reservas.quartos_id')
+                ->sum('quartos.valor');
+
+            $juntaMeses = [
+                $con_dez + $qrto_dez,
+                $con_nov + $qrto_nov,
+                $con_out + $qrto_out,
+                $con_set + $qrto_set,
+                $con_ago + $qrto_ago,
+                $con_jul + $qrto_jul,
+                $con_jun + $qrto_jun,
+                $con_mai + $qrto_mai,
+                $con_abr + $qrto_abr,
+                $con_mar + $qrto_mar,
+                $con_fev + $qrto_fev,
+                $con_jan + $qrto_jan
+            ];
+            $ordemCorretaMeses = array_reverse($juntaMeses);
             return response()->json([
                 'success' => true,
-                'mesesConsumo' => $labelMesConsumo,
-                'valoresConsumo' => $labelValorConsumo,
-                'mesesQuarto' => $labelMesQuarto,
-                'valoresQuarto' => $labelValorQuarto,
-                // 'quarto' => $quarto_mes,
-                // 'valores' => $valoresCorrespondentes,
+                'relatorio' => $ordemCorretaMeses,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
