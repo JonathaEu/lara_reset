@@ -160,9 +160,11 @@ class RelatorioController extends Controller
                 $con_jan + $qrto_jan
             ];
             $ordemCorretaMeses = array_reverse($juntaMeses);
+            $rendaTotal = array_sum($ordemCorretaMeses);
             return response()->json([
                 'success' => true,
                 'relatorio' => $ordemCorretaMeses,
+                'rendaTotal' => $rendaTotal,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
