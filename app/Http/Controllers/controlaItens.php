@@ -32,7 +32,7 @@ class controlaItens extends Controller
             iten::create([
                 "nome" => $nome,
                 "valor" => $valor,
-                "quantidade" => $quantidade,
+                "estoque" => $quantidade,
             ]);
             return response()->json(["success" => true, "mensagem" => 'Item registrado'], 200);
         } catch (Exception $e) {

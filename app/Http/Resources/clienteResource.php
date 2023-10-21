@@ -23,6 +23,7 @@ class clienteResource extends JsonResource
             'telefone' => $this->telefone,
             'cidade' => $this->cidade,
             'estado' => $this->estado,
+            'genero' => $this->genero,
         ];
     }
 }

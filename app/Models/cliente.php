@@ -18,7 +18,8 @@ class cliente extends Model
         'senha',
         'telefone',
         'cidade',
-        'estado'
+        'estado',
+        'genero'
     ];
     protected $table = 'clientes';
 

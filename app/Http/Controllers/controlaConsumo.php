@@ -58,7 +58,6 @@ class controlaConsumo extends Controller
                     ]);
 
                     $msg = 'consumo registrado com sucesso';
-
                 } else {
                     $msg = 'Não há itens para serem removidos';
                 }
@@ -89,7 +88,7 @@ class controlaConsumo extends Controller
             $cliente_id = $request->clientes_id;
             $reserva_id = DB::table('reservas')
                 ->where('clientes_id', $cliente_id)
-                ->where('status', "iniciado")
+                // ->where('status', "finalizado")
                 ->pluck('id');
             // ->get();
             $reserva_consumo = DB::table('consumo')
@@ -116,7 +115,6 @@ class controlaConsumo extends Controller
                 'data' => $reserva_consumo,
 
             ], 200);
-
         } catch (Exception $e) {
             return response()->json([
                 "success" => false,

@@ -27,6 +27,7 @@ class controlaCliente extends Controller
             $telefone = $request->telefone;
             $cidade = $request->cidade;
             $estado = $request->estado;
+            $genero = $request->genero;
 
             cliente::create([
                 'nome' => $nome,
@@ -36,6 +37,7 @@ class controlaCliente extends Controller
                 'telefone' => $telefone,
                 'cidade' => $cidade,
                 'estado' => $estado,
+                'genero' => $genero,
             ]);
 
             return response()->json([
@@ -60,6 +62,7 @@ class controlaCliente extends Controller
             $telefone = $request->telefone;
             $cidade = $request->cidade;
             $estado = $request->estado;
+            $genero = $request->genero;
 
             $cliente = cliente::where('id', $id);
             $cliente->update([
@@ -70,6 +73,7 @@ class controlaCliente extends Controller
                 'telefone' => $telefone,
                 'cidade' => $cidade,
                 'estado' => $estado,
+                'genero' => $genero,
             ]);
             return response()->json([
                 "success" => true,
@@ -94,7 +98,6 @@ class controlaCliente extends Controller
                 'data' => $cliente,
                 'success' => true
             ], 200);
-
         } catch (Exception $e) {
             return response()->json([
                 "success" => false,
